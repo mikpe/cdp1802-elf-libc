@@ -1,4 +1,4 @@
-# cdp1802-elf-libc
+# puts.S
 # Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
@@ -14,29 +14,36 @@
 # You should have received a copy of the GNU General Public License
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-TRIPLET=cdp1802-unknown-elf
+#include "asm-macros.h"
 
-CROSS_COMPILE=$(TRIPLET)-
-AR=$(CROSS_COMPILE)ar
-CC=$(CROSS_COMPILE)gcc
-CPPFLAGS=-Iinclude
-CFLAGS=-Wall -Os
+/* int puts(const char *s);
+ *
+ * TODO: rewrite this in C once gcc generates good enough code.
+ */
 
-PREFIX=usr
+BEGINF	puts
+	;; s is in ARG0
+	lbr	1f
 
-BUILD=	crt0.o libc.a
+0:	;; [X=ARG0] putchar(*s++)
+	sex	ARG0
+	out	6	; latch *s++
+	sex	PC
+	out	7	; issue command, immediate
+	.byte	0xE0	; code for PUTCHAR
 
-CRT=	crt0.o
-LIBC=	_exit.o exit.o putchar.o puts.o
+1:	;; if (*s != '\0') goto 0b
+	ldn	ARG0
+	lbnz	0b
 
-build:	$(BUILD)
+	;; putchar('\n')
+	sex	PC
+	out	6	; latch character, immediate
+	.byte	'\n'
+	out	7	; issue command, immediate
+	.byte	0xE0	; code for PUTCHAR
 
-libc.a:	$(LIBC)
-	$(AR) ruv libc.a $(LIBC)
-
-install:	$(BUILD)
-	mkdir -p $(DESTDIR)/$(PREFIX)/lib
-	cp $(BUILD) $(DESTDIR)/$(PREFIX)/lib/
-
-clean:
-	rm -f $(BUILD) $(LIBC)
+	;; return with a non-negative value in ARG0
+	phi	ARG0	; D is zero, clear ARG0 upper half
+	RET
+ENDF	puts
