@@ -1,4 +1,4 @@
-# cdp1802-elf-libc
+# abort.S
 # Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
@@ -14,29 +14,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-TRIPLET=cdp1802-unknown-elf
+#include "asm-macros.h"
 
-CROSS_COMPILE=$(TRIPLET)-
-AR=$(CROSS_COMPILE)ar
-CC=$(CROSS_COMPILE)gcc
-CPPFLAGS=-Iinclude
-CFLAGS=-Wall -Os
+/* void abort(void);
+ *
+ * For now just tailcall _exit(99).
+ */
 
-PREFIX=usr
-
-BUILD=	crt0.o libc.a
-
-CRT=	crt0.o
-LIBC=	_exit.o abort.o exit.o putchar.o puts.o
-
-build:	$(BUILD)
-
-libc.a:	$(LIBC)
-	$(AR) ruv libc.a $(LIBC)
-
-install:	$(BUILD)
-	mkdir -p $(DESTDIR)/$(PREFIX)/lib
-	cp $(BUILD) $(DESTDIR)/$(PREFIX)/lib/
-
-clean:
-	rm -f $(BUILD) $(LIBC)
+BEGINF	abort
+	ldi	0
+	phi	ARG0
+	ldi	99
+	plo	ARG0
+	lbr	_exit
+ENDF	abort
