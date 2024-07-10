@@ -24,15 +24,19 @@ CFLAGS=-Wall -Os
 
 PREFIX=usr
 
-BUILD=	crt0.o libc.a
+BUILD=	crt0.o libc.a libm.a
 
 CRT=	crt0.o
 LIBC=	_exit.o abort.o exit.o putchar.o puts.o
+LIBM=
 
 build:	$(BUILD)
 
 libc.a:	$(LIBC)
 	$(AR) ruv libc.a $(LIBC)
+
+libm.a:	$(LIBM)
+	$(AR) ruv libm.a $(LIBM)
 
 install:	$(BUILD)
 	mkdir -p $(DESTDIR)/$(PREFIX)/lib
@@ -41,4 +45,4 @@ install:	$(BUILD)
 	cp include/*.h $(DESTDIR)/$(PREFIX)/include/
 
 clean:
-	rm -f $(BUILD) $(LIBC)
+	rm -f $(BUILD) $(LIBC) $(LIBM)
