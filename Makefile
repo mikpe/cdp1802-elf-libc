@@ -37,6 +37,8 @@ libc.a:	$(LIBC)
 install:	$(BUILD)
 	mkdir -p $(DESTDIR)/$(PREFIX)/lib
 	cp $(BUILD) $(DESTDIR)/$(PREFIX)/lib/
+	mkdir -p $(DESTDIR)/$(PREFIX)/include
+	cp include/*.h $(DESTDIR)/$(PREFIX)/include/
 
 clean:
 	rm -f $(BUILD) $(LIBC)
