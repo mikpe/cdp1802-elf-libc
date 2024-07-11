@@ -27,7 +27,7 @@ PREFIX=usr
 BUILD=	crt0.o libc.a libm.a
 
 CRT=	crt0.o
-LIBC=	_exit.o abort.o exit.o putchar.o puts.o
+LIBC=	_exit.o abort.o exit.o putchar.o puts.o stubs.o
 LIBM=
 
 build:	$(BUILD)
