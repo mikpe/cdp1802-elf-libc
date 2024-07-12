@@ -25,12 +25,14 @@ typedef struct __FILE FILE;
 
 #define EOF (-1)
 
-extern FILE __libc_stdout;
+extern FILE __libc_stdout, __libc_stderr;
 #define stdout (&__libc_stdout)
+#define stderr (&__libc_stderr)
 
 int fclose(FILE *stream);
 int ferror(FILE *stream);
 int fileno(FILE *stream);
+int fflush(FILE *stream);
 FILE *fopen(const char *pathname, const char *mode);
 int fprintf(FILE *stream, const char *format, ...);
 int fputs(const char *s, FILE *stream);
