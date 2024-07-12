@@ -41,8 +41,9 @@ libm.a:	$(LIBM)
 install:	$(BUILD)
 	mkdir -p $(DESTDIR)/$(PREFIX)/lib
 	cp $(BUILD) $(DESTDIR)/$(PREFIX)/lib/
-	mkdir -p $(DESTDIR)/$(PREFIX)/include
+	mkdir -p $(DESTDIR)/$(PREFIX)/include/sys
 	cp include/*.h $(DESTDIR)/$(PREFIX)/include/
+	cp include/sys/*.h $(DESTDIR)/$(PREFIX)/include/sys/
 
 clean:
 	rm -f $(BUILD) $(LIBC) $(LIBM)
