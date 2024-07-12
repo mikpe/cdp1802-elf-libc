@@ -23,14 +23,16 @@
 .endm
 
 	.text
+STUB	__libc_stderr
 STUB	__libc_stdout
 STUB	__sigsetjmp
-STUB	__stack_chk_guard
 STUB	__stack_chk_fail
+STUB	__stack_chk_guard
 STUB	_mcount
 STUB	atoi
 STUB	calloc
 STUB	fclose
+STUB	fflush
 STUB	floor
 STUB	fmax
 STUB	fopen
