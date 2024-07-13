@@ -16,10 +16,16 @@
 
 #include "asm-macros.h"
 
+	.local	stubnr
+	.set	stubnr, 0
+
 .macro	STUB	name
 	.global	\name
 	.type	\name, @function
 \name:
+	.set	stubnr, stubnr + 1
+	ldi	stubnr
+	.byte	0x68, 0x1F	; causes NYI message and exit from sim1802
 .endm
 
 	.text
@@ -188,5 +194,3 @@ STUB	truncl
 STUB	vfprintf
 STUB	vprintf
 STUB	vsprintf
-
-	lbr	abort	; FIXME: just a stub for now
