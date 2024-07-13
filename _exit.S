@@ -19,7 +19,7 @@
 /* void _exit(int status); */
 
 BEGINF	_exit
-	glo	ARG0	; fetch exit status
+	glo	ARG0	; fetch low byte of exit status
 	dec	SP
 	str	SP	; .. and push it
 	out	6	; pop exit status and latch it

@@ -22,8 +22,6 @@
  */
 
 BEGINF	abort
-	ldi	0
-	phi	ARG0
 	ldi	99
 	plo	ARG0
 	lbr	_exit
