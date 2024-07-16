@@ -135,7 +135,6 @@ STUB	posix_memalign
 STUB	pow
 STUB	printf
 STUB	rand
-STUB	realloc
 STUB	remove
 STUB	rint
 STUB	rintf
