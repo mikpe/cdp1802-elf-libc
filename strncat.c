@@ -1,4 +1,4 @@
-/* errno.h
+/* strncat.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,12 +14,25 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _ERRNO_H
-#define _ERRNO_H
+#include <string.h>
 
-extern int errno;
+/* FIXME: rewrite in assembler */
 
-#define ENOMEM          12      /* Out of memory */
-#define EINVAL          22      /* Invalid argument */
+char *strncat(char *dst, const char *src, size_t n)
+{
+    char *p;
 
-#endif /* !_ERRNO_H */
+    for (p = dst; *p != '\0'; ++p)
+	;
+
+    for (;; --n) {
+	if (n == 0) {
+	    *p = '\0';
+	    break;
+	}
+	if ((*p++ = *src++) == '\0')
+	    break;
+    }
+
+    return dst;
+}

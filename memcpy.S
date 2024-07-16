@@ -1,4 +1,4 @@
-# asm-macros.h
+# memcpy.S
 # Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
@@ -14,28 +14,36 @@
 # You should have received a copy of the GNU General Public License
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-#define SP	2
-#define PC	3
-#define CALL	4
-#define RETN	5
-#define LINK	6
-#define ARG0	7
-#define ARG1	8
-#define ARG2	9
-#define ARG3	10
-#define STATIC_CHAIN 11
+#include "asm-macros.h"
 
-.macro	BEGINF	name
-	.text
-	.global	\name
-	.type	\name, @function
-\name:
-.endm
+/* void *memcpy(void *dst, const void *src, size_t n);
+ */
 
-.macro	ENDF	name
-	.size	\name, .-\name
-.endm
+#define DST	ARG0
+#define SRC	ARG1
+#define N	ARG2
+#define TMP	ARG3
 
-.macro	RET
-	sep	RETN
-.endm
+BEGINF	memcpy
+	;; TMP = DST
+	ghi	DST
+	phi	TMP
+	glo	DST
+	plo	TMP
+	lbr	1f
+
+0:	;; *TMP++ = *SRC++, --N
+	lda	SRC
+	str	TMP
+	inc	TMP
+	dec	N
+
+1:	;; if (N != 0) goto 0b
+	glo	N
+	lbnz	0b
+	ghi	N
+	lbnz	0b
+
+	;; return with DST still in ARG0
+	RET
+ENDF	memcpy

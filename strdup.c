@@ -1,4 +1,4 @@
-/* errno.h
+/* strdup.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,12 +14,21 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _ERRNO_H
-#define _ERRNO_H
+#include <stdlib.h>
+#include <string.h>
 
-extern int errno;
+/* FIXME: rewrite in assembler */
 
-#define ENOMEM          12      /* Out of memory */
-#define EINVAL          22      /* Invalid argument */
+char *strdup(const char *src)
+{
+    size_t n;
+    char *dst;
 
-#endif /* !_ERRNO_H */
+    n = strlen(src) + 1;
+
+    dst = malloc(n);
+    if (dst != NULL)
+	memcpy(dst, src, n);
+
+    return dst;
+}

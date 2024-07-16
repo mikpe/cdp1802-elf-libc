@@ -17,4 +17,21 @@
 #ifndef _ASSERT_H
 #define _ASSERT_H
 
+#undef assert
+
+#ifdef NDEBUG
+
+#define assert(expr)	((void) 0)
+
+#else /* !NDEBUG */
+
+void _assert(const char *);
+
+#define _ASSERT_STR2(x) #x
+#define _ASSERT_STR(x) _ASSERT_STR2(x)
+
+#define assert(expr) ((expr) ? (void) 0 : _assert(__FILE__ ":" __ASSERT_STR(__LINE__) " " #expr))
+
+#endif /* !NDEBUG */
+
 #endif /* !_ASSERT_H */
