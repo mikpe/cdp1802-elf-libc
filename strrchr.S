@@ -1,4 +1,4 @@
-# asm-macros.h
+# strrchr.S
 # Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
@@ -14,28 +14,39 @@
 # You should have received a copy of the GNU General Public License
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-#define SP	2
-#define PC	3
-#define CALL	4
-#define RETN	5
-#define LINK	6
-#define ARG0	7
-#define ARG1	8
-#define ARG2	9
-#define ARG3	10
-#define STATIC_CHAIN 11
+#include "asm-macros.h"
 
-.macro	BEGINF	name
-	.text
-	.global	\name
-	.type	\name, @function
-\name:
-.endm
+/* char *strchr(const char *s, int c);
+ */
 
-.macro	ENDF	name
-	.size	\name, .-\name
-.endm
+#define S	ARG0
+#define C	ARG1
+#define P	ARG2
 
-.macro	RET
-	sep	RETN
-.endm
+BEGINF	strrchr
+	ldi	0	; set P = NULL
+	plo	P
+	phi	P
+
+	sex	S
+
+0:	;; if (*S == C) P = S
+	glo	C
+	xor
+	lbnz	1f
+	glo	S
+	plo	P
+	ghi	S
+	phi	P
+
+1:	;; if (*S++ != 0) goto 0b
+	lda	S
+	lbnz	0b
+
+	;; return P
+	glo	P
+	plo	ARG0
+	ghi	P
+	phi	ARG0
+	RET
+ENDF	strrchr

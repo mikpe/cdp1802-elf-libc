@@ -1,4 +1,4 @@
-/* errno.h
+/* xlibc.h
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,12 +14,21 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _ERRNO_H
-#define _ERRNO_H
+/* Implementation-specific declarations only available within libc. */
 
-extern int errno;
+#include <stddef.h>
 
-#define ENOMEM          12      /* Out of memory */
-#define EINVAL          22      /* Invalid argument */
+/* output s to the console without extra newline */
+void _puts(const char *s);
 
-#endif /* !_ERRNO_H */
+/* size_t multiplication with overflow detection, usage:
+ *
+ * struct mulovf res = _mulovf(a, b);
+ * if (res.overflow) handle overflow;
+ * else use res.product;
+ */
+struct mulovf {	/* FIXME: assumes big-endian with 16-bit word size */
+    size_t overflow;
+    size_t product;
+};
+struct mulovf _mulovf(size_t a, size_t b);

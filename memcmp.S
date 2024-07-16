@@ -1,4 +1,4 @@
-# asm-macros.h
+# memcmp.S
 # Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
@@ -14,28 +14,46 @@
 # You should have received a copy of the GNU General Public License
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-#define SP	2
-#define PC	3
-#define CALL	4
-#define RETN	5
-#define LINK	6
-#define ARG0	7
-#define ARG1	8
-#define ARG2	9
-#define ARG3	10
-#define STATIC_CHAIN 11
+#include "asm-macros.h"
 
-.macro	BEGINF	name
-	.text
-	.global	\name
-	.type	\name, @function
-\name:
-.endm
+/* int memcmp(const void *s1, const void *s2, size_t n);
+ */
 
-.macro	ENDF	name
-	.size	\name, .-\name
-.endm
+#define S1	ARG0
+#define S2	ARG1
+#define N	ARG2
 
-.macro	RET
-	sep	RETN
-.endm
+BEGINF	memcmp
+	lbr	1f
+
+0:	;; compute *S1++ - *S2++ into D and DF
+	lda	S2
+	str	SP
+	lda	S1
+	sm
+	lbnf	2f	; if < then borrow, i.e. carry clear
+	lbnz	3f	; if > then non-zero
+
+	;; --N
+	dec	N
+
+1:	;; if (N != 0) goto 0b
+	glo	N
+	lbnz	0b
+	ghi	N
+	lbnz	0b
+	;; D = 0 -> RES = <0,0>
+	lbr    4f
+
+2:	;; less-than, set RES = <-1,-1>
+	ldi	0xff
+	lskp
+
+3:	;; greater-than, set RES = <1,1>
+	ldi	1
+
+4:	;; return with <D,D> in ARG0
+	plo	ARG0
+	phi	ARG0
+	RET
+ENDF	memcmp

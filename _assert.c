@@ -1,4 +1,4 @@
-/* errno.h
+/* _assert.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,12 +14,14 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _ERRNO_H
-#define _ERRNO_H
+#include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "xlibc.h"
 
-extern int errno;
-
-#define ENOMEM          12      /* Out of memory */
-#define EINVAL          22      /* Invalid argument */
-
-#endif /* !_ERRNO_H */
+void _assert(const char *message)
+{
+    _puts("Assertion failed: ");
+    puts(message);
+    abort();
+}

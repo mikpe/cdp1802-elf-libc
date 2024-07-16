@@ -1,4 +1,4 @@
-/* errno.h
+/* calloc.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,12 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _ERRNO_H
-#define _ERRNO_H
+#include <errno.h>
+#include <stdint-gcc.h>
+#include <stdlib.h>
+#include <string.h>
+#include "xlibc.h"
 
-extern int errno;
+/* This must be compiled with -ffreestanding to avoid gcc turning
+ * the malloc+memset sequence into a call to calloc() itself.
+ *
+ * FIXME: rewrite in assembler
+ */
+void *calloc(size_t nmemb, size_t size)
+{
+    struct mulovf res;
+    size_t nrbytes;
+    void *p;
 
-#define ENOMEM          12      /* Out of memory */
-#define EINVAL          22      /* Invalid argument */
+    res = _mulovf(nmemb, size);
+    if (res.overflow) {
+	errno = ENOMEM;
+	return NULL;
+    }
+    nrbytes = res.product;
 
-#endif /* !_ERRNO_H */
+    p = malloc((uint16_t) nrbytes);
+    if (p == NULL)
+	return p;
+    return memset(p, 0, nrbytes);
+}

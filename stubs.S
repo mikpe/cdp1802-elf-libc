@@ -47,7 +47,6 @@ STUB	asinh
 STUB	asinhf
 STUB	asinhl
 STUB	asinl
-STUB	assert
 STUB	atan
 STUB	atanf
 STUB	atanh
@@ -58,7 +57,6 @@ STUB	atoi
 STUB	cbrt
 STUB	cbrtf
 STUB	cbrtl
-STUB	calloc
 STUB	ceil
 STUB	ceilf
 STUB	ceill
@@ -95,7 +93,6 @@ STUB	fork
 STUB	fprintf
 STUB	fputc
 STUB	fputs
-STUB	free
 STUB	fwrite
 STUB	ilogb
 STUB	ilogbf
@@ -129,13 +126,7 @@ STUB	lrintl
 STUB	lround
 STUB	lroundf
 STUB	lroundl
-STUB	malloc
-STUB	memchr
-STUB	memcmp
-STUB	memcpy
-STUB	memmove
 STUB	mempcpy
-STUB	memset
 STUB	mmap
 STUB	nearbyint
 STUB	nearbyintf
@@ -143,7 +134,6 @@ STUB	nearbyintl
 STUB	posix_memalign
 STUB	pow
 STUB	printf
-STUB	qsort
 STUB	rand
 STUB	realloc
 STUB	remove
@@ -166,18 +156,7 @@ STUB	sqrt
 STUB	sqrtf
 STUB	sqrtl
 STUB	strcat
-STUB	strchr
-STUB	strcmp
-STUB	strcpy
-STUB	strdup
-STUB	strlen
 STUB	strncasecmp
-STUB	strncat
-STUB	strncmp
-STUB	strncpy
-STUB	strndup
-STUB	strrchr
-STUB	strspn
 STUB	tan
 STUB	tanf
 STUB	tanh

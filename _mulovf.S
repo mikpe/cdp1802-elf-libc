@@ -1,4 +1,4 @@
-# asm-macros.h
+# _mulovf.S
 # Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
@@ -14,28 +14,41 @@
 # You should have received a copy of the GNU General Public License
 # along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-#define SP	2
-#define PC	3
-#define CALL	4
-#define RETN	5
-#define LINK	6
-#define ARG0	7
-#define ARG1	8
-#define ARG2	9
-#define ARG3	10
-#define STATIC_CHAIN 11
+#include "asm-macros.h"
 
-.macro	BEGINF	name
-	.text
-	.global	\name
-	.type	\name, @function
-\name:
-.endm
+/* size_t multiplication with overflow detection, based on the
+   following C code then hand-optimized:
 
-.macro	ENDF	name
-	.size	\name, .-\name
-.endm
+   struct mulovf _mulovf(size_t a, size_t b)
+   {
+       unsigned long x = (unsigned long)a * (unsigned long)b;
+       return (struct mulovf){ !!(x >> 16), (size_t)x };
+   }
+ */
 
-.macro	RET
-	sep	RETN
-.endm
+BEGINF	_mulovf
+	;; zero-extend the arguments from 16 to 32 bits
+	glo	ARG1
+	plo	ARG3
+	ghi	ARG1
+	phi	ARG3
+	glo	ARG0
+	plo	ARG1
+	ghi	ARG0
+	phi	ARG1
+	ldi	0
+	plo	ARG2
+	phi	ARG2
+	plo	ARG0
+	phi	ARG0
+	;; multiply
+	sep	4
+	.hword	__mulsi3
+	;; low 16 bits of product already in ARG1
+	ghi	ARG0
+	str	SP
+	glo	ARG0
+	or
+	plo	ARG0	; ARG0 low is non-zero iff overflow
+	RET
+ENDF	_mulovf
