@@ -37,6 +37,10 @@
  * - call exit(main(argc, argv, envp))
  */
 
+#define ARGC	ARG0
+#define ARGV	ARG1
+#define ENVP	ARG2
+
 BEGINF	_start
 	;; use SP to access the boot args record
 	ldi	0xff
@@ -55,51 +59,51 @@ BEGINF	_start
 
 	;; match, load argument registers
 	ldxa
-	phi	ARG0
+	phi	ARGC
 	ldxa
-	plo	ARG0	; ARGC
+	plo	ARGC
 	ldxa
-	phi	ARG1
+	phi	ARGV
 	ldxa
-	plo	ARG1	; ARGV
+	plo	ARGV
 	ldxa
-	phi	ARG2
+	phi	ENVP
 	ldxa
-	plo	ARG2	; ENVP
+	plo	ENVP
 
 	;; copy ARGV to SP
-	ghi	ARG1
+	ghi	ARGV
 	phi	SP
-	glo	ARG1
+	glo	ARGV
 	plo	SP
 	lbr	2f
 
 1:	;; no match, put safe dummy values in the argument registers
 	ldi	0x00
-	phi	ARG0
-	plo	ARG0	; ARGC = 0
+	phi	ARGC
+	plo	ARGC	; ARGC = 0
 	phi	SP
-	plo	SP
+	plo	SP	; SP = 0
 	dec	SP
 	stxd
 	str	SP	; SP = -2, ((void**)SP)[0] = NULL
 	ghi	SP
-	phi	ARG1
-	phi	ARG2
+	phi	ARGV
+	phi	ENVP
 	glo	SP
-	plo	ARG1	; *ARGC == NULL
-	plo	ARG2	; *ENVP == NULL
+	plo	ARGV	; *ARGV == NULL
+	plo	ENVP	; *ENVP == NULL
 
 2:	dec	SP	; point to next available byte, as if STXD was used
 
-	;; store envp (ARG2) in environ (uses LINK as a scratch reg)
+	;; store ENVP in environ (uses LINK as a scratch reg)
 	ldi	%hi(environ)
 	phi	LINK
 	ldi	%lo(environ)
 	plo	LINK
-	ghi	ARG2
+	ghi	ENVP
 	str	LINK
-	glo	ARG2
+	glo	ENVP
 	inc	LINK
 	str	LINK
 
