@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <stddef.h>
 #include <stdint-gcc.h>
+#include "xmalloc.h"
 
 extern char _end[];	/* linker symbol for end of BSS */
 static char *cur_brk = _end;
@@ -54,30 +55,7 @@ static void *sbrk(ptrdiff_t increment)
     return (void *) old_brk;
 }
 
-/* void *malloc(size_t size);
- * void free(void *ptr);
- *
- * A simple malloc() somewhat inspired by K&R's:
- *
- * - Every block records its size as meta-data, stored before the data.
- * - Every free block links to the next free block, using a pointer stored
- *   at the start of the data.
- * - The free list is sorted by address.
- * - malloc() uses a first-fit search to find a free block.
- * - The heap is grown by sbrk().
- * - free() finds the appropriate place to insert the freed block,
- *   merging it with the lower or higher neighbour if possible.
- */
-
-struct header {
-    size_t nrbytes;		/* size of block in bytes, minimum sizeof(struct header) */
-    union {
-	struct header *next;	/* pointer to next free block (when freed) */
-	char data[];		/* user's data (when in use) */
-    } u;
-};
-
-static struct header *freep;
+struct header *_malloc_freep;
 
 static void *morecore(size_t nrbytes)
 {
@@ -98,7 +76,7 @@ void *malloc(size_t nrbytes)
     if (nrbytes < sizeof(struct header))
 	nrbytes = sizeof(struct header);
 
-    for (pblock = &freep; (block = *pblock) != NULL; pblock = &block->u.next) {
+    for (pblock = &_malloc_freep; (block = *pblock) != NULL; pblock = &block->u.next) {
 	if (block->nrbytes >= nrbytes) {
 	    /* we'll allocate from this block */
 	    size_t split_nrbytes = block->nrbytes - nrbytes;
@@ -126,12 +104,12 @@ void free(void *ptr)
 
     block = (struct header *) ((char *) ptr - offsetof(struct header, u.data));
 
-    prev = freep;
+    prev = _malloc_freep;
 
     /* check if block should be inserted at the head of the free list */
     if (prev == NULL || block < prev) {
 	block->u.next = prev;
-	freep = block;
+	_malloc_freep = block;
 	return;
     }
 
