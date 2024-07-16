@@ -17,33 +17,12 @@
 #include "asm-macros.h"
 
 /* int puts(const char *s);
- *
- * TODO: rewrite this in C once gcc generates good enough code.
  */
 
 BEGINF	puts
-	;; s is in ARG0
-	lbr	1f
-
-0:	;; [X=ARG0] putchar(*s++)
-	sex	ARG0
-	out	6	; latch *s++
-	sex	PC
-	out	7	; issue command, immediate
-	.byte	0xE0	; code for PUTCHAR
-
-1:	;; if (*s != '\0') goto 0b
-	ldn	ARG0
-	lbnz	0b
-
-	;; putchar('\n')
-	sex	PC
-	out	6	; latch character, immediate
-	.byte	'\n'
-	out	7	; issue command, immediate
-	.byte	0xE0	; code for PUTCHAR
-
-	;; return with a non-negative value in ARG0
-	phi	ARG0	; D is zero, clear ARG0 upper half
-	RET
+	sep	4
+	.hword	_puts
+	ldi	'\n'
+	plo	ARG0
+	lbr	putchar
 ENDF	puts
