@@ -30,7 +30,8 @@ CRT=	crt0.o
 LIBC=	_assert.o _exit.o _mulovf.o _puts.o abort.o calloc.o exit.o \
 	free.o malloc.o memchr.o memcpy.o memmove.o memset.o putchar.o \
 	puts.o qsort.o realloc.o strchr.o strcmp.o strcpy.o strdup.o strlen.o \
-	strncat.o strncmp.o strncpy.o strndup.o strrchr.o strspn.o stubs.o
+	strncat.o strncmp.o strncpy.o strndup.o strnlen.o strrchr.o strspn.o \
+	stubs.o
 LIBM=
 
 build:	$(BUILD)

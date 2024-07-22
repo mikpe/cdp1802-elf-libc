@@ -32,7 +32,8 @@ char *strcpy(char *dst, const char *src);
 char *strdup(const char *s);
 int strncmp(const char *s1, const char *s2, size_t n);
 char *strndup(const char *s, size_t n);
-char *strncpy(char *dst, const char *src, size_t sz);
+size_t strnlen(const char *s, size_t n);
+char *strncpy(char *dst, const char *src, size_t n);
 char *strrchr(const char *s, int c);
 char *strtok(char *str, const char *delim);
 
