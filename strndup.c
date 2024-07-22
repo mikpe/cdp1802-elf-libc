@@ -22,18 +22,15 @@
 
 char *strndup(const char *src, size_t n)
 {
-    char *tmp;
+    char *dst;
 
-    /* n = strnlen(src, n); */
-    tmp = memchr(src, '\0', n);
-    if (tmp != NULL)
-	n = tmp - src;
+    n = strnlen(src, n);
 
-    tmp = malloc(n + 1);
-    if (tmp != NULL) {
-	memcpy(tmp, src, n);
-	tmp[n] = '\0';
+    dst = malloc(n + 1);
+    if (dst != NULL) {
+	memcpy(dst, src, n);
+	dst[n] = '\0';
     }
 
-    return tmp;
+    return dst;
 }
