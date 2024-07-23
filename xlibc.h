@@ -17,6 +17,7 @@
 /* Implementation-specific declarations only available within libc. */
 
 #include <stddef.h>
+#include <stdint-gcc.h>
 
 /* output s to the console without extra newline */
 void _puts(const char *s);
@@ -32,3 +33,6 @@ struct mulovf {	/* FIXME: assumes big-endian with 16-bit word size */
     size_t product;
 };
 struct mulovf _mulovf(size_t a, size_t b);
+
+/* Convert a number from binary to a decimal string. */
+size_t _num2dec(const uint8_t *num, size_t nrbits, char *buf, size_t bufsz);
