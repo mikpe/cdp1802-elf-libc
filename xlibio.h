@@ -41,4 +41,5 @@ struct odev {
 };
 
 void _putc(struct odev *, char c);
+int _vprintf(struct odev *, const char *fmt, va_list ap);
 void _write(struct odev *, const char *s, size_t n);
