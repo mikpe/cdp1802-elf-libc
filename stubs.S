@@ -34,7 +34,6 @@ STUB	__libc_stdout
 STUB	__sigsetjmp
 STUB	__stack_chk_fail
 STUB	__stack_chk_guard
-STUB	_mcount
 STUB	acos
 STUB	acosf
 STUB	acosh

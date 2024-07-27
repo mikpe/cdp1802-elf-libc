@@ -32,7 +32,7 @@ CTYPE=	iscntrl.o isprint.o
 
 MEMORY=	memchr.o memcmp.o memcpy.o memmove.o memset.o
 
-MISC=	_assert.o _exit.o _mulovf.o errno.o stubs.o
+MISC=	_assert.o _exit.o _mcount.o _mulovf.o errno.o stubs.o
 
 STDIO=	_is_console.o _num2dec.o _putc.o _puts.o _vprintf.o _write.o \
 	fputc.o fputs.o fwrite.o printf.o putchar.o puts.o snprintf.o \
