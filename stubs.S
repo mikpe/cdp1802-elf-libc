@@ -91,8 +91,6 @@ STUB	fmaxl
 STUB	fopen
 STUB	fork
 STUB	fprintf
-STUB	fputc
-STUB	fputs
 STUB	fwrite
 STUB	ilogb
 STUB	ilogbf

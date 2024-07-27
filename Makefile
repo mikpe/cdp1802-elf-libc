@@ -27,11 +27,22 @@ PREFIX=usr
 BUILD=	crt0.o libc.a libm.a
 
 CRT=	crt0.o
-LIBC=	_assert.o _exit.o _is_console.o _mulovf.o _num2dec.o _putc.o _puts.o _vprintf.o \
-	_write.o abort.o calloc.o errno.o exit.o free.o malloc.o memchr.o memcmp.o memcpy.o \
-	memmove.o memset.o printf.o putchar.o puts.o qsort.o realloc.o snprintf.o sprintf.o \
-	stdfiles.o strchr.o strcmp.o strcpy.o strdup.o strlen.o strncat.o strncmp.o strncpy.o \
-	strndup.o strnlen.o strrchr.o strspn.o stubs.o vprintf.o
+
+MEMORY=	memchr.o memcmp.o memcpy.o memmove.o memset.o
+
+MISC=	_assert.o _exit.o _mulovf.o errno.o stubs.o
+
+STDIO=	_is_console.o _num2dec.o _putc.o _puts.o _vprintf.o _write.o \
+	fputc.o fputs.o printf.o putchar.o puts.o snprintf.o sprintf.o \
+	stdfiles.o vprintf.o
+
+STDLIB=	abort.o calloc.o exit.o free.o malloc.o realloc.o qsort.o
+
+STRING=	strchr.o strcmp.o strcpy.o strdup.o strlen.o strncat.o \
+	strncmp.o strncpy.o strndup.o strnlen.o strrchr.o strspn.o
+
+LIBC=	$(MEMORY) $(MISC) $(STDIO) $(STDLIB) $(STRING)
+
 LIBM=
 
 build:	$(BUILD)

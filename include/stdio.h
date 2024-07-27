@@ -35,6 +35,7 @@ int fileno(FILE *stream);
 int fflush(FILE *stream);
 FILE *fopen(const char *pathname, const char *mode);
 int fprintf(FILE *stream, const char *format, ...);
+int fputc(int c, FILE *stream);
 int fputs(const char *s, FILE *stream);
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
