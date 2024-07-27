@@ -1,4 +1,4 @@
-/* ctype.h
+/* iscntrl.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,10 +14,11 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _CTYPE_H
-#define _CTYPE_H
+#include <ctype.h>
 
-int iscntrl(int c);
-int isprint(int c);
+/* This only supports ASCII. */
 
-#endif /* !_CTYPE_H */
+int iscntrl(int c)
+{
+    return (c > 0 && c < 32) || c == 127;
+}

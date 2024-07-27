@@ -94,8 +94,6 @@ STUB	fprintf
 STUB	ilogb
 STUB	ilogbf
 STUB	ilogbl
-STUB	iscntrl
-STUB	isprint
 STUB	llrint
 STUB	llrintf
 STUB	llrintl

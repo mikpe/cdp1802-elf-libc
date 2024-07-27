@@ -28,6 +28,8 @@ BUILD=	crt0.o libc.a libm.a
 
 CRT=	crt0.o
 
+CTYPE=	iscntrl.o isprint.o
+
 MEMORY=	memchr.o memcmp.o memcpy.o memmove.o memset.o
 
 MISC=	_assert.o _exit.o _mulovf.o errno.o stubs.o
@@ -41,7 +43,7 @@ STDLIB=	abort.o calloc.o exit.o free.o malloc.o qsort.o rand.o realloc.o
 STRING=	strchr.o strcmp.o strcpy.o strdup.o strlen.o strncat.o \
 	strncmp.o strncpy.o strndup.o strnlen.o strrchr.o strspn.o
 
-LIBC=	$(MEMORY) $(MISC) $(STDIO) $(STDLIB) $(STRING)
+LIBC=	$(CTYPE) $(MEMORY) $(MISC) $(STDIO) $(STDLIB) $(STRING)
 
 LIBM=
 
