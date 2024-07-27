@@ -125,7 +125,6 @@ STUB	mmap
 STUB	nearbyint
 STUB	nearbyintf
 STUB	nearbyintl
-STUB	posix_memalign
 STUB	pow
 STUB	remove
 STUB	rint
