@@ -36,7 +36,7 @@ STDIO=	_is_console.o _num2dec.o _putc.o _puts.o _vprintf.o _write.o \
 	fputc.o fputs.o fwrite.o printf.o putchar.o puts.o snprintf.o \
 	sprintf.o stdfiles.o vprintf.o
 
-STDLIB=	abort.o calloc.o exit.o free.o malloc.o realloc.o qsort.o
+STDLIB=	abort.o calloc.o exit.o free.o malloc.o qsort.o rand.o realloc.o
 
 STRING=	strchr.o strcmp.o strcpy.o strdup.o strlen.o strncat.o \
 	strncmp.o strncpy.o strndup.o strnlen.o strrchr.o strspn.o

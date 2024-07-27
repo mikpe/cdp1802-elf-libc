@@ -1,4 +1,4 @@
-/* stdlib.h
+/* rand.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,23 +14,15 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _STDLIB_H
-#define _STDLIB_H
+#include <stdlib.h>
 
-#include <stddef.h>	/* for size_t */
+unsigned long _rand_next = 1;
 
-#define RAND_MAX 32767
+int rand(void)
+{
+    unsigned long next;
 
-void abort(void);
-int atoi(const char *nptr);
-void *calloc(size_t nmemb, size_t size);
-void exit(int status);
-void free(void *ptr);
-void *malloc(size_t size);
-int posix_memalign(void **memptr, size_t alignment, size_t size);
-int putenv(char *string);
-void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
-int rand(void);
-void *realloc(void *ptr, size_t size);
-
-#endif /* !_STDLIB_H */
+    next = _rand_next * 1103515245 + 12345;
+    _rand_next = next;
+    return (unsigned int)(next >> 16) & RAND_MAX;
+}

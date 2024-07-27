@@ -130,7 +130,6 @@ STUB	nearbyintf
 STUB	nearbyintl
 STUB	posix_memalign
 STUB	pow
-STUB	rand
 STUB	remove
 STUB	rint
 STUB	rintf
