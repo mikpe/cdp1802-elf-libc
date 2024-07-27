@@ -17,4 +17,11 @@
 #ifndef _SETJMP_H
 #define _SETJMP_H
 
+#define _JB_SIZE 7	/* SP, previous LINK, LINK, r12-r15 */
+
+typedef unsigned int jmp_buf[_JB_SIZE];
+
+void longjmp(jmp_buf env, int val);
+int setjmp(jmp_buf env);
+
 #endif /* !_SETJMP_H */
