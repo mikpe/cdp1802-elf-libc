@@ -133,7 +133,6 @@ STUB	nearbyintf
 STUB	nearbyintl
 STUB	posix_memalign
 STUB	pow
-STUB	printf
 STUB	rand
 STUB	remove
 STUB	rint
@@ -149,8 +148,6 @@ STUB	sinh
 STUB	sinhf
 STUB	sinhl
 STUB	sinl
-STUB	snprintf
-STUB	sprintf
 STUB	sqrt
 STUB	sqrtf
 STUB	sqrtl
@@ -170,5 +167,4 @@ STUB	trunc
 STUB	truncf
 STUB	truncl
 STUB	vfprintf
-STUB	vprintf
 STUB	vsprintf
