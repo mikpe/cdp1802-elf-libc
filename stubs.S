@@ -29,8 +29,6 @@
 .endm
 
 	.text
-STUB	__libc_stderr
-STUB	__libc_stdout
 STUB	__sigsetjmp
 STUB	__stack_chk_fail
 STUB	__stack_chk_guard
