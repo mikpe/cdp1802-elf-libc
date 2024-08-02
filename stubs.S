@@ -120,7 +120,6 @@ STUB	lrintl
 STUB	lround
 STUB	lroundf
 STUB	lroundl
-STUB	mempcpy
 STUB	mmap
 STUB	nearbyint
 STUB	nearbyintf
@@ -143,8 +142,6 @@ STUB	sinl
 STUB	sqrt
 STUB	sqrtf
 STUB	sqrtl
-STUB	strcat
-STUB	strncasecmp
 STUB	tan
 STUB	tanf
 STUB	tanh
@@ -159,4 +156,3 @@ STUB	trunc
 STUB	truncf
 STUB	truncl
 STUB	vfprintf
-STUB	vsprintf
