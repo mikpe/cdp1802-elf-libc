@@ -87,7 +87,6 @@ STUB	fmax
 STUB	fmaxl
 STUB	fopen
 STUB	fork
-STUB	fprintf
 STUB	ilogb
 STUB	ilogbf
 STUB	ilogbl
@@ -153,4 +152,3 @@ STUB	tmpnam
 STUB	trunc
 STUB	truncf
 STUB	truncl
-STUB	vfprintf

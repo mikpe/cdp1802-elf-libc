@@ -38,7 +38,7 @@ SETJMP=	longjmp.o setjmp.o
 
 STDIO=	_is_console.o _num2dec.o _putc.o _puts.o _vprintf.o _write.o \
 	fprintf.o fputc.o fputs.o fwrite.o printf.o putchar.o puts.o \
-	snprintf.o sprintf.o stdfiles.o vprintf.o vsprintf.o
+	snprintf.o sprintf.o stdfiles.o vfprintf.o vprintf.o vsprintf.o
 
 STDLIB=	abort.o calloc.o exit.o free.o malloc.o qsort.o rand.o realloc.o
 
