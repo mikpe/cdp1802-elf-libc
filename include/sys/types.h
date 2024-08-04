@@ -17,4 +17,7 @@
 #ifndef _SYS_TYPES_H
 #define _SYS_TYPES_H
 
+/* make gcc.dg/builtins-config.h not define HAVE_C99_RUNTIME */
+#define _NEWLIB_VERSION
+
 #endif /* !_SYS_TYPES_H */
