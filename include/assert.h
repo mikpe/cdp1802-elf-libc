@@ -30,7 +30,7 @@ void _assert(const char *);
 #define _ASSERT_STR2(x) #x
 #define _ASSERT_STR(x) _ASSERT_STR2(x)
 
-#define assert(expr) ((expr) ? (void) 0 : _assert(__FILE__ ":" __ASSERT_STR(__LINE__) " " #expr))
+#define assert(expr) ((expr) ? (void) 0 : _assert(__FILE__ ":" _ASSERT_STR(__LINE__) " " #expr))
 
 #endif /* !NDEBUG */
 
