@@ -117,7 +117,6 @@ STUB	lrintl
 STUB	lround
 STUB	lroundf
 STUB	lroundl
-STUB	mmap
 STUB	nearbyint
 STUB	nearbyintf
 STUB	nearbyintl
