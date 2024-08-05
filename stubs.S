@@ -85,7 +85,6 @@ STUB	floorf
 STUB	floorl
 STUB	fmax
 STUB	fmaxl
-STUB	fopen
 STUB	fork
 STUB	ilogb
 STUB	ilogbf
@@ -147,7 +146,6 @@ STUB	tanl
 STUB	tgamma
 STUB	tgammaf
 STUB	tgammal
-STUB	tmpnam
 STUB	trunc
 STUB	truncf
 STUB	truncl

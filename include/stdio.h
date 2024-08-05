@@ -33,7 +33,7 @@ int fclose(FILE *stream);
 int ferror(FILE *stream);
 int fileno(FILE *stream);
 int fflush(FILE *stream);
-FILE *fopen(const char *pathname, const char *mode);
+/*FILE *fopen(const char *pathname, const char *mode);*/
 int fprintf(FILE *stream, const char *format, ...);
 int fputc(int c, FILE *stream);
 int fputs(const char *s, FILE *stream);
@@ -48,7 +48,7 @@ int remove(const char *pathname);
 int scanf(const char *format, ...);
 int snprintf(char *str, size_t size, const char *format, ...);
 int sprintf(char *str, const char *format, ...);
-char *tmpnam(char *s);
+/*char *tmpnam(char *s);*/
 int vfprintf(FILE *stream, const char *format, va_list ap);
 int vprintf(const char *format, va_list ap);
 int vsnprintf(char *str, size_t size, const char *fmt, va_list ap);
