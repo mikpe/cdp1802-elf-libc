@@ -41,6 +41,7 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 int getc(FILE *stream);
 int getchar(void);
+void perror(const char *s);
 int printf(const char *format, ...);
 int putchar(int c);
 int puts(const char *s);
