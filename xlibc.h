@@ -37,5 +37,8 @@ struct mulovf _mulovf(size_t a, size_t b);
 /* Convert a number from binary to a decimal string. */
 size_t _num2dec(const uint8_t *num, size_t nrbits, char *buf, size_t bufsz);
 
+/* Convert an integer to decimal and output it to the console. */
+void _putint(int val);
+
 /* output s to the console without extra newline */
 void _puts(const char *s);
