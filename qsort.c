@@ -15,7 +15,7 @@
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <stddef.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
 #include "xlibc.h"
 
 /* FIXME: rewrite in assembler */

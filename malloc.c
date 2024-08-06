@@ -16,7 +16,7 @@
 
 #include <errno.h>
 #include <stddef.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
 #include "xmalloc.h"
 
 extern char _end[];	/* linker symbol for end of BSS */

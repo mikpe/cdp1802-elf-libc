@@ -55,7 +55,7 @@
 
 #include <endian.h>
 #include <stddef.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
 #include "xlibc.h"
 
 /* FIXME: rewrite this in assembler */

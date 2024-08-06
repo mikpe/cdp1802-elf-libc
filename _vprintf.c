@@ -16,7 +16,7 @@
 
 #include <errno.h>
 #include <stdarg.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include "xlibc.h"

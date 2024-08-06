@@ -15,7 +15,7 @@
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <errno.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include "xlibc.h"

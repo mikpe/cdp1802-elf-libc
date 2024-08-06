@@ -17,7 +17,7 @@
 /* Implementation-specific declarations only available within libc. */
 
 #include <stddef.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
 
 /* dummy _mcount() for -pg */
 void _mcount(void);
