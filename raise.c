@@ -1,4 +1,4 @@
-/* signal.h
+/* raise.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,27 +14,36 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _SIGNAL_H
-#define _SIGNAL_H
+#include <errno.h>
+#include <signal.h>
+#include <unistd.h>
+#include "xlibc.h"
 
-typedef char sig_atomic_t;
+int raise(int sig)
+{
+    unsigned int i;
+    _sighandler_t *slot, handler;
 
-typedef void (*_sighandler_t)(int);
+    i = sig - SIGABRT;
+    if (i >= _NSIG) {
+	errno = EINVAL;
+	return -1;
+    }
+    slot = &_sighandlers[i];
+    handler = *slot;
+    if (handler == SIG_DFL) {
+	char buf[16];
+	int n;
 
-extern _sighandler_t _sighandlers[];
-
-#define SIG_DFL ((_sighandler_t)0)
-#define SIG_ERR ((_sighandler_t)-1)
-#define SIG_IGN ((_sighandler_t)1)
-
-#define SIGABRT 1
-#define SIGFPE  2
-#define SIGILL  3
-#define SIGSEGV 4
-#define SIGTERM 5
-#define _NSIG   5
-
-_sighandler_t signal(int sig, _sighandler_t handler);
-int raise(int sig);
-
-#endif /* !_SIGNAL_H */
+	_puts("terminating due to signal ");
+	n = _num2dec((unsigned char*)&sig, 8 * sizeof sig, buf, sizeof buf - 2);
+	buf[n] = '\n';
+	buf[n + 1] = '\0';
+	_puts(buf);
+	_exit(1);
+    } else if (handler != SIG_IGN) {
+	*slot = SIG_DFL;
+	(*handler)(sig);
+    }
+    return 0;
+}

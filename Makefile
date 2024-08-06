@@ -36,6 +36,8 @@ MISC=	_assert.o _exit.o _mcount.o _mulovf.o errno.o stubs.o
 
 SETJMP=	longjmp.o setjmp.o
 
+SIGNAL=	raise.o signal.o
+
 STDIO=	_is_console.o _num2dec.o _putc.o _puts.o _vprintf.o _write.o \
 	fprintf.o fputc.o fputs.o fwrite.o perror.o printf.o putchar.o puts.o \
 	snprintf.o sprintf.o stdfiles.o vfprintf.o vprintf.o vsprintf.o
@@ -45,7 +47,7 @@ STDLIB=	abort.o calloc.o exit.o free.o malloc.o qsort.o rand.o realloc.o
 STRING=	strcat.o strchr.o strcmp.o strcpy.o strdup.o strlen.o strncasecmp.o \
 	strncat.o strncmp.o strncpy.o strndup.o strnlen.o strrchr.o strspn.o
 
-LIBC=	$(CTYPE) $(MEMORY) $(MISC) $(SETJMP) $(STDIO) $(STDLIB) $(STRING)
+LIBC=	$(CTYPE) $(MEMORY) $(MISC) $(SETJMP) $(SIGNAL) $(STDIO) $(STDLIB) $(STRING)
 
 LIBM=
 
