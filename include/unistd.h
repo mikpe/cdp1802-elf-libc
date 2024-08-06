@@ -17,4 +17,6 @@
 #ifndef _UNISTD_H
 #define _UNISTD_H
 
+void _exit(int status) __attribute__((__noreturn__));
+
 #endif /* !_UNISTD_H */
