@@ -16,6 +16,7 @@
 
 #include <errno.h>
 #include <signal.h>
+#include <stdio.h>
 #include <unistd.h>
 #include "xlibc.h"
 
@@ -32,14 +33,9 @@ int raise(int sig)
     slot = &_sighandlers[i];
     handler = *slot;
     if (handler == SIG_DFL) {
-	char buf[16];
-	int n;
-
 	_puts("terminating due to signal ");
-	n = _num2dec((unsigned char*)&sig, 8 * sizeof sig, buf, sizeof buf - 2);
-	buf[n] = '\n';
-	buf[n + 1] = '\0';
-	_puts(buf);
+	_putint(sig);
+	putchar('\n');
 	_exit(1);
     } else if (handler != SIG_IGN) {
 	*slot = SIG_DFL;

@@ -20,16 +20,11 @@
 
 void perror(const char *s)
 {
-    char buf[16];
-    int n;
-
     if (s && *s) {
 	_puts(s);
 	_puts(": ");
     }
     _puts("errno ");
-    n = _num2dec((unsigned char*)&errno, 8 * sizeof errno, buf, sizeof buf - 2);
-    buf[n] = '\n';
-    buf[n + 1] = '\0';
-    _puts(buf);
+    _putint(errno);
+    putchar('\n');
 }
