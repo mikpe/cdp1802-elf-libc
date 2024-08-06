@@ -45,7 +45,6 @@ STUB	asinhf
 STUB	asinhl
 STUB	asinl
 STUB	atan
-STUB	atanf
 STUB	atanh
 STUB	atanhf
 STUB	atanhl
@@ -80,10 +79,8 @@ STUB	expm1f
 STUB	expm1l
 STUB	fclose
 STUB	fflush
-STUB	floor
 STUB	floorf
 STUB	floorl
-STUB	fmax
 STUB	fmaxl
 STUB	fork
 STUB	ilogb
@@ -119,7 +116,6 @@ STUB	lroundl
 STUB	nearbyint
 STUB	nearbyintf
 STUB	nearbyintl
-STUB	pow
 STUB	remove
 STUB	rint
 STUB	rintf
@@ -134,8 +130,6 @@ STUB	sinh
 STUB	sinhf
 STUB	sinhl
 STUB	sinl
-STUB	sqrt
-STUB	sqrtf
 STUB	sqrtl
 STUB	tan
 STUB	tanf

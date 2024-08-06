@@ -1,4 +1,4 @@
-/* math.h
+/* atanf.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,14 +14,18 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _MATH_H
-#define _MATH_H
+#include <math.h>
+#include <stdio.h>
 
-float atanf(float x);
-double floor(double x);
-double fmax(double x, double y);
-double pow(double x, double y);
-double sqrt(double x);
-float sqrtf(float x);
+float atanf(float x)
+{
+    union {
+	float f;
+	unsigned long l;
+    } u;
 
-#endif /* !_MATH_H */
+    u.f = x;
+    printf("@ atanf %#lx\n", u.l);
+    asm("ldi 0xA0\n\t.byte 0x68, 0x1F");
+    return 0;
+}

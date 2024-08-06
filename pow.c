@@ -1,4 +1,4 @@
-/* math.h
+/* pow.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,14 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _MATH_H
-#define _MATH_H
+#include <math.h>
+#include <stdio.h>
 
-float atanf(float x);
-double floor(double x);
-double fmax(double x, double y);
-double pow(double x, double y);
-double sqrt(double x);
-float sqrtf(float x);
+double pow(double x, double y)
+{
+    union {
+	double d;
+	unsigned long long ll;
+    } u1, u2;
 
-#endif /* !_MATH_H */
+    u1.d = x;
+    u2.d = y;
+    printf("@ pow %#llx %#llx\n", u1.ll, u2.ll);
+    asm("ldi 0xA4\n\t.byte 0x68, 0x1F");
+    return 0;
+}

@@ -1,4 +1,4 @@
-/* math.h
+/* fmax.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,14 +14,14 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _MATH_H
-#define _MATH_H
+#include <math.h>
+#include <stdio.h>
 
-float atanf(float x);
-double floor(double x);
-double fmax(double x, double y);
-double pow(double x, double y);
-double sqrt(double x);
-float sqrtf(float x);
-
-#endif /* !_MATH_H */
+double fmax(double x, double y)
+{
+    if (__builtin_isnan(x))
+	return y;
+    if (__builtin_isnan(y))
+	return x;
+    return x >= y ? x : y;
+}

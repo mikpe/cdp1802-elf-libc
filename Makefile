@@ -30,6 +30,8 @@ CRT=	crt0.o
 
 CTYPE=	iscntrl.o isprint.o
 
+MATH=	atanf.o floor.o fmax.o pow.o sqrt.o sqrtf.o
+
 MEMORY=	memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o
 
 MISC=	_assert.o _exit.o _mcount.o _mulovf.o errno.o stubs.o
@@ -49,7 +51,7 @@ STRING=	strcat.o strchr.o strcmp.o strcpy.o strdup.o strlen.o strncasecmp.o \
 
 LIBC=	$(CTYPE) $(MEMORY) $(MISC) $(SETJMP) $(SIGNAL) $(STDIO) $(STDLIB) $(STRING)
 
-LIBM=
+LIBM=	$(MATH)
 
 build:	$(BUILD)
 
