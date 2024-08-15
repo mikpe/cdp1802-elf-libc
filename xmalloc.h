@@ -33,7 +33,7 @@ struct header {
     size_t nrbytes;		/* size of block in bytes, minimum sizeof(struct header) */
     union {
 	struct header *next;	/* pointer to next free block (when freed) */
-	char data[];		/* user's data (when in use) */
+	char data[1];		/* user's data (when in use) */
     } u;
 };
 
