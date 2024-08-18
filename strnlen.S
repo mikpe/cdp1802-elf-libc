@@ -33,6 +33,7 @@ BEGINF	strnlen
 	lda	S
 	lbz	9f
 
+	inc	LEN
 	dec	N
 
 1:	;; if (N != 0) goto 0b
