@@ -99,7 +99,7 @@ struct pfmt {
 #define LMOD_T		LMOD_INT16
 #endif
 
-static const char *scan_pfmt(struct pfmt *pfmt, const char *fmt, va_list ap)
+static const char *scan_pfmt(struct pfmt *pfmt, const char *fmt, va_list *ap)
 {
     unsigned char flags, lmod;
     unsigned int width;
@@ -156,7 +156,7 @@ static const char *scan_pfmt(struct pfmt *pfmt, const char *fmt, va_list ap)
     /* scan field width */
     if (*fmt == '*') {
 	++fmt;
-	width = va_arg(ap, unsigned int);
+	width = va_arg(*ap, unsigned int);
 	if ((int)width < 0) {
 	    width = -width;
 	    pfmt->flags |= FLG_LEFT;
@@ -175,7 +175,7 @@ static const char *scan_pfmt(struct pfmt *pfmt, const char *fmt, va_list ap)
     if (*fmt == '.') {
 	++fmt;
 	if (*fmt == '*') {
-	    prec = va_arg(ap, int);
+	    prec = va_arg(*ap, int);
 	} else {
 	    prec = 0;
 	    while (*fmt >= '0' && *fmt <= '9')
@@ -244,42 +244,42 @@ static const char *scan_pfmt(struct pfmt *pfmt, const char *fmt, va_list ap)
 	}
 	switch (lmod) {
 	case LMOD_INT64:
-	    pfmt->val.u64 = va_arg(ap, uint64_t);
+	    pfmt->val.u64 = va_arg(*ap, uint64_t);
 	    break;
 	case LMOD_INT32:
-	    pfmt->val.u64 = va_arg(ap, uint32_t);
+	    pfmt->val.u64 = va_arg(*ap, uint32_t);
 	    break;
 	case LMOD_INT16:
-	    pfmt->val.u64 = (uint16_t)va_arg(ap, unsigned int);
+	    pfmt->val.u64 = (uint16_t)va_arg(*ap, unsigned int);
 	    break;
 	case LMOD_INT8:
-	    pfmt->val.u64 = (uint8_t)va_arg(ap, unsigned int);
+	    pfmt->val.u64 = (uint8_t)va_arg(*ap, unsigned int);
 	    break;
 	}
 	break;
     case 'e': case 'E': case 'f': case 'F': case 'g': case 'G': case 'a': case 'A':
 	/* We'll need to extend this for "proper" FP support. */
 	pfmt->conv = CONV_FLOATING;
-	pfmt->val.d = va_arg(ap, double);
+	pfmt->val.d = va_arg(*ap, double);
 	break;
     case 'c':
 	pfmt->conv = CONV_CHAR;
-	pfmt->val.u64 = (unsigned char)va_arg(ap, unsigned int);
+	pfmt->val.u64 = (unsigned char)va_arg(*ap, unsigned int);
 	break;
     case 's':
 	pfmt->conv = CONV_STRING;
-	pfmt->val.ptr = va_arg(ap, char *);
+	pfmt->val.ptr = va_arg(*ap, char *);
 	break;
     case 'p':
 	pfmt->lmod = LMOD_T;
 	pfmt->conv = CONV_HEX;
-	pfmt->val.u64 = (uintptr_t)va_arg(ap, void *);
+	pfmt->val.u64 = (uintptr_t)va_arg(*ap, void *);
 	break;
     case 'n':
 	if (lmod == LMOD_NONE)
 	    pfmt->lmod = (sizeof(int) == sizeof(uint16_t)) ? LMOD_INT16 : LMOD_INT32;
 	pfmt->conv = CONV_NWRITTEN;
-	pfmt->val.ptr = va_arg(ap, int *);
+	pfmt->val.ptr = va_arg(*ap, int *);
 	break;
     case '%':
 	pfmt->conv = CONV_PERCENT;
@@ -554,7 +554,7 @@ int _vprintf(struct odev *o, const char *fmt, va_list ap)
     int nwritten = 0;
     struct pfmt pfmt;
 
-    while ((fmt = scan_pfmt(&pfmt, fmt, ap)) != NULL) {
+    while ((fmt = scan_pfmt(&pfmt, fmt, &ap)) != NULL) {
 	nwritten += emit_pfmt(o, &pfmt, nwritten);
     }
     if (pfmt.conv == CONV_ERR) {
@@ -621,4 +621,5 @@ int main(void)
     printf("%u errors\n", errors);
     return !!errors;
 }
+
 #endif
