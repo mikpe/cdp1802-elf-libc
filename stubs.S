@@ -83,7 +83,6 @@ STUB	floorf
 STUB	floorl
 STUB	fmaxl
 STUB	fork
-STUB	ilogb
 STUB	ilogbf
 STUB	ilogbl
 STUB	llrint
