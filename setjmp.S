@@ -49,6 +49,7 @@ BEGINF	setjmp
 	glo	ENV
 	adi	(7*2)-1
 	plo	ENV
+	ghi	ENV
 	adci	0
 	phi	ENV
 	sex	ENV
