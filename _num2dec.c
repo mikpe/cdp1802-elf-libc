@@ -137,7 +137,7 @@ static size_t num2bcd(const uint8_t *numptr, size_t nrbits, uint8_t *bcdend)
 	}
     }
 
-    return (nrbytes * 2) - ((byte & 0xf0) ? 0 : 1);
+    return nrbytes ? (nrbytes * 2) - ((byte & 0xf0) ? 0 : 1) : 0;
 }
 
 size_t _num2dec(const uint8_t *num, size_t nrbits, char *buf, size_t bufsz)
