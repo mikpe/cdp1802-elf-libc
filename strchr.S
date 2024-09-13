@@ -36,7 +36,7 @@ BEGINF	strchr
 
 	;; return NULL
 	plo	ARG0
-	phi	ARG1
+	phi	ARG0
 
 1:	RET
 ENDF	strchr
