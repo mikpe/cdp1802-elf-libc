@@ -43,7 +43,7 @@ BEGINF	memchr
 
 	;; return NULL
 	plo	ARG0
-	phi	ARG1
+	phi	ARG0
 
 9:	RET
 ENDF	memchr
