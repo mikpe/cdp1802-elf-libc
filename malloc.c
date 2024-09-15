@@ -73,8 +73,12 @@ void *malloc(size_t nrbytes)
 {
     struct header **pblock, *block;
 
-    if (nrbytes < sizeof(struct header))
-	nrbytes = sizeof(struct header);
+    /* The data must be able to contain a free list pointer.  */
+    if (nrbytes < sizeof(struct header *))
+	nrbytes = sizeof(struct header *);
+
+    /* Add size of meta-data to the size to allocate.  */
+    nrbytes += offsetof(struct header, u);
 
     for (pblock = &_malloc_freep; (block = *pblock) != NULL; pblock = &block->u.next) {
 	if (block->nrbytes >= nrbytes) {
