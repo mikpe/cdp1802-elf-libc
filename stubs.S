@@ -79,9 +79,11 @@ STUB	expm1f
 STUB	expm1l
 STUB	fclose
 STUB	fflush
+STUB	fgets
 STUB	floorf
 STUB	floorl
 STUB	fmaxl
+STUB	fopen
 STUB	fork
 STUB	ilogbf
 STUB	ilogbl
