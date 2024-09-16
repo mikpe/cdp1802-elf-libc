@@ -1,4 +1,4 @@
-/* stdlib.h
+/* div.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,35 +14,20 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _STDLIB_H
-#define _STDLIB_H
+#include <stdlib.h>
 
-#include <stddef.h>	/* for size_t */
-
-typedef int ssize_t;
-
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
-
-#define RAND_MAX 32767
-
-typedef struct {
+div_t div(int num, int den)
+{
     int quot;
     int rem;
-} div_t;
 
-void abort(void);
-int atoi(const char *nptr);
-void *calloc(size_t nmemb, size_t size);
-div_t div(int num, int den);
-void exit(int status);
-void free(void *ptr);
-void *malloc(size_t size);
-int posix_memalign(void **memptr, size_t alignment, size_t size);
-int putenv(char *string);
-void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
-int rand(void);
-void *realloc(void *ptr, size_t size);
-void srand(unsigned int seed);
+    quot = num / den;
+    rem = num - den * quot;
 
-#endif /* !_STDLIB_H */
+    if (quot < 0 && rem > 0) {
+	quot += 1;
+	rem -= den;
+    }
+
+    return (div_t) {.quot = quot, .rem = rem};
+}
