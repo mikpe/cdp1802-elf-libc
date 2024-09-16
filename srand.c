@@ -1,4 +1,4 @@
-/* stdlib.h
+/* srand.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -14,24 +14,11 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _STDLIB_H
-#define _STDLIB_H
+#include <stdlib.h>
 
-#include <stddef.h>	/* for size_t */
+extern unsigned long _rand_next;
 
-#define RAND_MAX 32767
-
-void abort(void);
-int atoi(const char *nptr);
-void *calloc(size_t nmemb, size_t size);
-void exit(int status);
-void free(void *ptr);
-void *malloc(size_t size);
-int posix_memalign(void **memptr, size_t alignment, size_t size);
-int putenv(char *string);
-void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
-int rand(void);
-void *realloc(void *ptr, size_t size);
-void srand(unsigned int seed);
-
-#endif /* !_STDLIB_H */
+void srand(unsigned int seed)
+{
+    _rand_next = seed;
+}
