@@ -19,6 +19,8 @@
 
 #include <stddef.h>	/* for size_t */
 
+typedef int ssize_t;
+
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
 
