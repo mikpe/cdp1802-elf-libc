@@ -19,4 +19,6 @@
 
 #include <stdint.h>
 
+#define PRIu32 "lu"
+
 #endif /* !_INTTYPES_H */

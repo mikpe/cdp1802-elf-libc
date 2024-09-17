@@ -25,6 +25,8 @@ typedef struct __FILE FILE;
 
 #define EOF (-1)
 
+#define BUFSIZ 1
+
 extern FILE __libc_stdout, __libc_stderr;
 #define stdout (&__libc_stdout)
 #define stderr (&__libc_stderr)
@@ -33,7 +35,7 @@ int fclose(FILE *stream);
 int ferror(FILE *stream);
 int fflush(FILE *stream);
 int fileno(FILE *stream);
-int fgets(FILE *stream);
+int fgets(char *s, int size, FILE *stream);
 FILE *fopen(const char *pathname, const char *mode);
 int fprintf(FILE *stream, const char *format, ...);
 int fputc(int c, FILE *stream);

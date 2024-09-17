@@ -17,6 +17,9 @@
 #ifndef _UNISTD_H
 #define _UNISTD_H
 
+#include <stddef.h>
+
 void _exit(int status) __attribute__((__noreturn__));
+int read(int fd, void *buf, size_t count);	/* FIXME: return type should be ssize_t */
 
 #endif /* !_UNISTD_H */

@@ -19,6 +19,7 @@
 
 extern int errno;
 
+#define EINTR		4	/* Interrupted system call */
 #define ENOMEM          12      /* Out of memory */
 #define EINVAL          22      /* Invalid argument */
 

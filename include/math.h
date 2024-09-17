@@ -80,5 +80,6 @@ double tgamma(double x);
 double trunc(double x);
 
 #define isnan(x) __builtin_isnan ((x))
+#define signbit(x) __builtin_signbit ((x))
 
 #endif /* !_MATH_H */
