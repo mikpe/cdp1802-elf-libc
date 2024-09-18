@@ -19,7 +19,8 @@
 #include "xlibm.h"
 
 static const struct stub_dd log_stub = {
-    "log", 0xA6, 0, {
+    "log", 0xA6, 1, {
+	{ {0xc059000000000000}, {0xfff8000000000000} },
     }
 };
 
