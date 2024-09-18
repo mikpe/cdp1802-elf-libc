@@ -19,7 +19,7 @@
 #include "xlibm.h"
 
 static const struct stub_ddd pow_stub = {
-    "pow", 0xA4, 15, {
+    "pow", 0xA4, 19, {
 	{ {0x3fb999999999999a}, {0x3ff4000000000000}, {0x3faccab8602d2697} },
 	{ {0x3fb999999999999a}, {0xbfd8000000000000}, {0x4002f892c7034a03} },
 	{ {0x3fb999999999999a}, {0xc017800000000000}, {0x4126e28c6b2d9fa5} },
@@ -29,6 +29,10 @@ static const struct stub_ddd pow_stub = {
 	{ {0x4000cccccccccccd}, {0x3ff4000000000000}, {0x4004394f0eb49499} },
 	{ {0x4000cccccccccccd}, {0xbfd8000000000000}, {0x3fe83a5edba9d095} },
 	{ {0x4000cccccccccccd}, {0xc017800000000000}, {0x3f8a330cde1c83e1} },
+	{ {0x4008cccccccccccd}, {0x3ff4000000000000}, {0x401074220b1e1408} },
+	{ {0x4008cccccccccccd}, {0xc017800000000000}, {0x3f5543e5cde6204a} },
+	{ {0x4008cccccccccccd}, {0xbfd8000000000000}, {0x3fe4ef8fe6aa4319} },
+	{ {0x4024000000000000}, {0xc007c28f5c28f5c4}, {0x3f518e4717dfb17b} },
 	{ {0x4024000000000000}, {0xc007d70a3d70a3d8}, {0x3f5127f9b796ec24} },
 	{ {0x4024000000000000}, {0xc007eb851eb851ec}, {0x3f50c4007be899c4} },
 	{ {0x4024000000000000}, {0xc008000000000000}, {0x3f50624dd2f1a9fc} },

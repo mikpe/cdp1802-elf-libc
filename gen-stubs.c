@@ -38,6 +38,7 @@ struct dd {
 static const uint64_t cbrt_tab[] = {
     0x3fff333333333333,
     0x4008000000000000,
+    0x4001d0e560418937,
 };
 
 static void gen_cbrt_stub(void)
@@ -77,6 +78,7 @@ static void gen_floor_stub(void)
 }
 
 static const uint64_t log_tab[] = {
+    0xc058800000000000,
     0xc058c00000000000,
     0xc059000000000000,
 };
@@ -107,6 +109,10 @@ static const struct dd pow_tab[] = {
     { 0x4000cccccccccccd, 0x3ff4000000000000 },
     { 0x4000cccccccccccd, 0xbfd8000000000000 },
     { 0x4000cccccccccccd, 0xc017800000000000 },
+    { 0x4008cccccccccccd, 0x3ff4000000000000 },
+    { 0x4008cccccccccccd, 0xc017800000000000 },
+    { 0x4008cccccccccccd, 0xbfd8000000000000 },
+    { 0x4024000000000000, 0xc007c28f5c28f5c4 },
     { 0x4024000000000000, 0xc007d70a3d70a3d8 },
     { 0x4024000000000000, 0xc007eb851eb851ec },
     { 0x4024000000000000, 0xc008000000000000 },
@@ -137,6 +143,7 @@ static const uint64_t sqrt_tab[] = {
     0x3fff333333333333,
     0x4008000000000000,
     0x4001d0e560418937,
+    0x4010000000000000,
     0x7fffffffffffffff,
     0x8000000000000000,
 };

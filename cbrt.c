@@ -19,9 +19,10 @@
 #include "xlibm.h"
 
 static const struct stub_dd cbrt_stub = {
-    "cbrt", 0xA5, 2, {
+    "cbrt", 0xA5, 3, {
 	{ {0x3fff333333333333}, {0x3ff3fd4493802cf8} },
 	{ {0x4008000000000000}, {0x3ff7137449123ef6} },
+	{ {0x4001d0e560418937}, {0x3ff4e4ed5ce21e36} },
     }
 };
 
