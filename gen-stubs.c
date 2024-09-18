@@ -35,6 +35,25 @@ struct dd {
     uint64_t y;
 };
 
+static const uint64_t cbrt_tab[] = {
+};
+
+static void gen_cbrt_stub(void)
+{
+    int i;
+    union f64 arg;
+    union f64 res;
+
+    printf("static const struct stub_dd cbrt_stub = {\n");
+    printf("    \"cbrt\", 0xA5, %zu, {\n", ARRAY_SIZE(cbrt_tab));
+    for (i = 0; i < ARRAY_SIZE(cbrt_tab); ++i) {
+	arg.ui = cbrt_tab[i];
+	res.f = cbrt(arg.f);
+	printf("\t{ {0x%016lx}, {0x%016lx} },\n", arg.ui, res.ui);
+    }
+    printf("    }\n};\n");
+}
+
 static const uint64_t floor_tab[] = {
     0x408ffffff0000000,
 };
@@ -50,6 +69,25 @@ static void gen_floor_stub(void)
     for (i = 0; i < ARRAY_SIZE(floor_tab); ++i) {
 	arg.ui = floor_tab[i];
 	res.f = floor(arg.f);
+	printf("\t{ {0x%016lx}, {0x%016lx} },\n", arg.ui, res.ui);
+    }
+    printf("    }\n};\n");
+}
+
+static const uint64_t log_tab[] = {
+};
+
+static void gen_log_stub(void)
+{
+    int i;
+    union f64 arg;
+    union f64 res;
+
+    printf("static const struct stub_dd log_stub = {\n");
+    printf("    \"log\", 0xA6, %zu, {\n", ARRAY_SIZE(log_tab));
+    for (i = 0; i < ARRAY_SIZE(log_tab); ++i) {
+	arg.ui = log_tab[i];
+	res.f = log(arg.f);
 	printf("\t{ {0x%016lx}, {0x%016lx} },\n", arg.ui, res.ui);
     }
     printf("    }\n};\n");
@@ -126,7 +164,9 @@ static void gen_sqrtf_stub(void)
 
 int main(void)
 {
+    gen_cbrt_stub();
     gen_floor_stub();
+    gen_log_stub();
     gen_pow_stub();
     gen_sqrt_stub();
     gen_sqrtf_stub();

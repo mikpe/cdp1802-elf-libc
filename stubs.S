@@ -50,7 +50,6 @@ STUB	atanhf
 STUB	atanhl
 STUB	atanl
 STUB	atoi
-STUB	cbrt
 STUB	cbrtf
 STUB	cbrtl
 STUB	ceil
@@ -92,7 +91,6 @@ STUB	llrintl
 STUB	llround
 STUB	llroundf
 STUB	llroundl
-STUB	log
 STUB	log10
 STUB	log10f
 STUB	log10l
