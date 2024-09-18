@@ -16,16 +16,15 @@
 
 #include <math.h>
 #include <stdio.h>
+#include "xlibm.h"
+
+static const struct stub_ff sqrtf_stub = {
+    "sqrtf", 0xA2, 1, {
+	{ {0x41e80000}, {0x40ac5345} },
+    }
+};
 
 float sqrtf(float x)
 {
-    union {
-	float f;
-	unsigned long l;
-    } u;
-
-    u.f = x;
-    printf("@ sqrtf %#lx\n", u.l);
-    asm("ldi 0xA2\n\t.byte 0x68, 0x1F");
-    return 0;
+    return _libm_stub_ff(x, &sqrtf_stub);
 }

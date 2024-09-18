@@ -16,17 +16,21 @@
 
 #include <math.h>
 #include <stdio.h>
+#include "xlibm.h"
+
+static const struct stub_ddd pow_stub = {
+    "pow", 0xA4, 7, {
+	{ {0x3fb999999999999a}, {0x3ff4000000000000}, {0x3faccab8602d2697} },
+	{ {0x3fb999999999999a}, {0xbfd8000000000000}, {0x4002f892c7034a03} },
+	{ {0x3fb999999999999a}, {0xc017800000000000}, {0x4126e28c6b2d9fa5} },
+	{ {0x4024000000000000}, {0xc008000000000000}, {0x3f50624dd2f1a9fc} },
+	{ {0x4030000000000000}, {0x3fd0000000000000}, {0x4000000000000000} },
+	{ {0x4040000000000000}, {0x3fd5555555555555}, {0x400965fea53d6e3c} },
+	{ {0x8000000000000000}, {0x3fe0000000000000}, {0x0000000000000000} },
+    }
+};
 
 double pow(double x, double y)
 {
-    union {
-	double d;
-	unsigned long long ll;
-    } u1, u2;
-
-    u1.d = x;
-    u2.d = y;
-    printf("@ pow %#llx %#llx\n", u1.ll, u2.ll);
-    asm("ldi 0xA4\n\t.byte 0x68, 0x1F");
-    return 0;
+    return _libm_stub_ddd(x, y, &pow_stub);
 }

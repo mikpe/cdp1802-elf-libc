@@ -16,16 +16,15 @@
 
 #include <math.h>
 #include <stdio.h>
+#include "xlibm.h"
+
+static const struct stub_dd floor_stub = {
+    "floor", 0xA1, 1, {
+	{ {0x408ffffff0000000}, {0x408ff80000000000} },
+    }
+};
 
 double floor(double x)
 {
-    union {
-	double d;
-	unsigned long long ll;
-    } u;
-
-    u.d = x;
-    printf("@ floor %#llx\n", u.ll);
-    asm("ldi 0xA1\n\t.byte 0x68, 0x1F");
-    return 0;
+    return _libm_stub_dd(x, &floor_stub);
 }

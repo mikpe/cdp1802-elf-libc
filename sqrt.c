@@ -16,16 +16,17 @@
 
 #include <math.h>
 #include <stdio.h>
+#include "xlibm.h"
+
+static const struct stub_dd sqrt_stub = {
+    "sqrt", 0xA3, 3, {
+	{ {0x3fd6666666666666}, {0x3fe2ee73dadc9b57} },
+	{ {0x4008000000000000}, {0x3ffbb67ae8584caa} },
+	{ {0x7fffffffffffffff}, {0x7fffffffffffffff} },
+    }
+};
 
 double sqrt(double x)
 {
-    union {
-	double d;
-	unsigned long long ll;
-    } u;
-
-    u.d = x;
-    printf("@ sqrt %#llx\n", u.ll);
-    asm("ldi 0xA3\n\t.byte 0x68, 0x1F");
-    return 0;
+    return _libm_stub_dd(x, &sqrt_stub);
 }
