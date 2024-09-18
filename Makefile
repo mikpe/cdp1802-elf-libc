@@ -30,7 +30,8 @@ CRT=	crt0.o
 
 CTYPE=	iscntrl.o isprint.o
 
-MATH=	atanf.o floor.o fmax.o ilogb.o pow.o sqrt.o sqrtf.o
+MATH=	_libm_stub_dd.o _libm_stub_ddd.o _libm_stub_ff.o \
+	atanf.o floor.o fmax.o ilogb.o pow.o sqrt.o sqrtf.o
 
 MEMORY=	memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o
 
