@@ -20,6 +20,7 @@
 #include <stddef.h>
 
 void _exit(int status) __attribute__((__noreturn__));
+int isatty(int fd);
 int read(int fd, void *buf, size_t count);	/* FIXME: return type should be ssize_t */
 
 #endif /* !_UNISTD_H */

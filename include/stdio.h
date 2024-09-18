@@ -27,10 +27,12 @@ typedef struct __FILE FILE;
 
 #define BUFSIZ 1
 
-extern FILE __libc_stdout, __libc_stderr;
+extern FILE __libc_stdin, __libc_stdout, __libc_stderr;
+#define stdint (&__libc_stdin)
 #define stdout (&__libc_stdout)
 #define stderr (&__libc_stderr)
 
+void clearerr(FILE *stream);
 int fclose(FILE *stream);
 int ferror(FILE *stream);
 int fflush(FILE *stream);
