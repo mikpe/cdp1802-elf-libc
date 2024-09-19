@@ -19,7 +19,8 @@
 #include "xlibm.h"
 
 static const struct stub_dd sqrt_stub = {
-    "sqrt", 0xA3, 8, {
+    "sqrt", 0xA3, 9, {
+	{ {0x3f4cd3755d7a2e9a}, {0x3f9e5f1f4201fd00} },
 	{ {0x3fd6666666666666}, {0x3fe2ee73dadc9b57} },
 	{ {0x3fff333333333333}, {0x3ff657c0b2625eb4} },
 	{ {0x4008000000000000}, {0x3ffbb67ae8584caa} },
