@@ -22,13 +22,9 @@ int sprintf(char *str, const char *fmt, ...)
 {
     va_list ap;
     int n;
-    struct odev o;
-
-    o.s = str;
-    o.n = -1;
 
     va_start(ap, fmt);
-    n = _vprintf(&o, fmt, ap);
+    n = vsnprintf(str, -1, fmt, ap);
     va_end(ap);
     return n;
 }

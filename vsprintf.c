@@ -20,10 +20,5 @@
 
 int vsprintf(char *str, const char *fmt, va_list ap)
 {
-    struct odev o;
-
-    o.s = str;
-    o.n = -1;
-
-    return _vprintf(&o, fmt, ap);
+    return vsnprintf(str, -1, fmt, ap);
 }
