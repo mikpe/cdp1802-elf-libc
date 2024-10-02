@@ -32,7 +32,7 @@
  * - verify magic cookie, load ARGC, ARGV, and ENVP into argument registers
  * - store ENVP in environ
  * - initialize SCRT (R4-R6)
- * - initialize SP from ARGV and push NULL LINK
+ * - initialize SP from ARGV and push NULL RA
  * - initialize PC
  * - call exit(main(argc, argv, envp))
  */
@@ -40,6 +40,7 @@
 #define ARGC	ARG0
 #define ARGV	ARG1
 #define ENVP	ARG2
+#define TMP	ARG3
 
 BEGINF	_start
 	;; use SP to access the boot args record
@@ -96,16 +97,16 @@ BEGINF	_start
 
 2:	dec	SP	; point to next available byte, as if STXD was used
 
-	;; store ENVP in environ (uses LINK as a scratch reg)
+	;; store ENVP in environ
 	ldi	%hi(environ)
-	phi	LINK
+	phi	TMP
 	ldi	%lo(environ)
-	plo	LINK
+	plo	TMP
 	ghi	ENVP
-	str	LINK
+	str	TMP
 	glo	ENVP
-	inc	LINK
-	str	LINK
+	inc	TMP
+	str	TMP
 
 	;; initialize SCRT
 	ldi	%hi(.CALRTN)
@@ -116,11 +117,9 @@ BEGINF	_start
 	phi	RETN
 	ldi	%lo(.RETRTN)
 	plo	RETN
-	ldi	0
-	phi	LINK
-	plo	LINK
 
-	;; push NULL LINK
+	;; push NULL RA
+	ldi	0
 	stxd
 	stxd
 
@@ -137,15 +136,17 @@ BEGINF	_start
 	;; tailcall exit()
 	lbr	exit
 
-	;; RCA's original SCRT software pushes LINK on the stack in
-	;; LITTLE-endian order, even though the CPU is BIG-endian.
-	;; The 1804AC SCAL/SRET instructions are compatible except
-	;; for pushing LINK in BIG-endian order.  This SCRT software
-	;; pushes LINK in BIG-endian order.
+	;; This is the New Call and Return Technique (NCRT), which differs
+	;; from the old Standard Call and Return Technique (SCRT) as follows:
+	;;
+	;; - NCRT does not reserve R6 for a LINK register, as it's redundant
+	;;   and making R6 a general-purpose register is much more useful
+	;; - NCRT stores return addresses in BIG-endian order, matching the
+	;;   the processor's general behaviour and the 1804AC instructions
 
 .EXITC:
-	;; At this point, P=4, X=2, PC=&CALLEE, LINK=&RA1, CALLER's LINK is on stack
-	sep	PC		; jump to CALLEE, leaving CALL=&CALRTN and LINK=&RA1
+	;; At this point, P=4, X=2, PC=CALLEE, CALLER's RA1 is on stack
+	sep	PC		; jump to CALLEE, leaving CALL=.CALRTN
 .CALRTN:
 	;; CALLER did
 	;;	; P=3
@@ -154,46 +155,42 @@ BEGINF	_start
 	;;	.byte	%low(CALLEE)
 	;; RA1:	; wants to return here
 	;;
-	;; At this point, P=4, CALL=&CALRTN, PC=&RA0.
-	;; First step: push LINK on the stack
+	;; At this point, P=4, CALL=.CALRTN, PC=RA0.
+	;; First step: increment PC and push RA1 on the stack
 	sex	SP		; X points to stack
-	glo	LINK
-	stxd			; push LOW(LINK) on the stack
-	ghi	LINK
-	stxd			; push HIGH(LINK) on the stack
-	;; Second step: copy PC (&RA0) to LINK
-	ghi	PC
-	phi	LINK		; Copy HIGH half of RA0 to LINK
+	inc	PC
+	inc	PC
 	glo	PC
-	plo	LINK		; Copy LOW half of RA0 to LINK
-	;; Third step: load &CALLEE from LINK to PC and update LINK to &RA1
-	lda	LINK		; D = M(LINK++)
-	phi	PC		; Copy HIGH half of &CALLEE to PC
-	lda	LINK		; D = M(LINK++)
-	plo	PC		; Copy LOW half of &CALLEE to PC
+	stxd			; push LOW(RA1) on the stack
+	ghi	PC
+	stxd			; push HIGH(RA1) on the stack
+	;; Second step: decrement PC and load CALLEE into PC
+	dec	PC
+	ldn	PC		; D = LOW(CALLEE)
+	str	SP		; MEM[SP] = LOW(CALLEE)
+	dec	PC
+	ldn	PC		; D = HIGH(CALLEE)
+	phi	PC		; HIGH(PC) = HIGH(CALLEE)
+	ldn	SP
+	plo	PC		; LOW(PC) = LOW(CALLEE)
 	lbr	.EXITC
 
 .EXITR:
-	;; At this point, P=5, X=2, PC=&RA1, CALLER's LINK has been restored
-	sep	PC		; jump to CALLER, leaving RETN=&RETRTN
+	;; At this point, P=5, X=2, PC=RA1, CALLER's SP has been restored
+	sep	PC		; jump to CALLER, leaving RETN=.RETRTN
 .RETRTN:
 	;; CALLEE did:
 	;;	; P=3, SP as on entry to CALLEE
 	;;	sep	RETN
 	;;
-	;; At this point, P=5, LINK=&RA1, CALLER's LINK is on stack
-	;; First step: copy LINK to PC
-	ghi	LINK
-	phi	PC		; Copy HIGH half of LINK to PC
-	glo	LINK
-	plo	PC		; Copy LOW half of LINK to PC
-	;; Second step: pop LINK off SP
+	;; At this point, P=5, CALLER's RA1 is on stack
+	;; First step: pop PC off SP
 	sex	SP		; X points to stack
 	inc	SP		; STXD decrements R(X) after storing to M(R(X))
-	ldxa
-	phi	LINK		; Pop HIGH half of saved LINK
-	ldx
-	plo	LINK		; Pop LOW half of saved LINK
+	lda	SP		; same as LDXA here, but fewer dynamic dependencies
+	phi	PC		; Pop HIGH half of saved RA1
+	ldn	SP		; same as LDX here, but fewer dynamic dependencies
+	plo	PC		; Pop LOW half of saved RA1
 	lbr	.EXITR
 
 ENDF	_start
