@@ -22,6 +22,7 @@
 #define ENV	ARG0
 #define VAL	ARG1
 #define TMPSP	ARG2
+#define RA	ARG3
 
 .macro	POP	regno
 	lda	ENV
@@ -41,11 +42,11 @@ BEGINF	longjmp
 1:
 	;; restore original call frame
 	POP	TMPSP
-	POP	LINK	; stacked LINK from origin call
+	POP	RA	; stacked RA in original setjmp() call
 	sex	TMPSP
-	glo	LINK
+	glo	RA
 	stxd
-	ghi	LINK
+	ghi	RA
 	stxd
 	glo	TMPSP
 	plo	SP
@@ -53,7 +54,6 @@ BEGINF	longjmp
 	phi	SP
 
 	;; restore remaining registers
-	POP	LINK
 	POP	12
 	POP	13
 	POP	14

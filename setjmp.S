@@ -21,7 +21,7 @@
 
 #define ENV	ARG0
 #define TMPSP	ARG1
-#define OLINK	ARG2
+#define RA	ARG2
 
 .macro	PUSH	regno
 	glo	\regno
@@ -31,41 +31,40 @@
 .endm
 
 BEGINF	setjmp
-	;; set up TMPSP to point to high byte of old LINK at SP + 1
+	;; set up TMPSP to point to high byte of RA at SP + 1
 	glo	SP
 	plo	TMPSP
 	ghi	SP
 	phi	TMPSP
 	inc	TMPSP
 
-	;; read old LINK
+	;; read RA
 	lda	TMPSP
-	phi	OLINK
+	phi	RA
 	ldn	TMPSP
-	plo	OLINK
+	plo	RA
 
 	;; Adjust ENV to point to the end of the jmp_buf, then set X to ENV.
 	;; We can then use STXD to write to it with auto-decrement.
 	glo	ENV
-	adi	(7*2)-1
+	adi	(6*2)-1
 	plo	ENV
 	ghi	ENV
 	adci	0
 	phi	ENV
 	sex	ENV
 
-	;; save callee-save registers (r12-r15), LINK, OLINK, and TMPSP
+	;; save callee-save registers (r12-r15), RA, and TMPSP
 	PUSH	15
 	PUSH	14
 	PUSH	13
 	PUSH	12
-	PUSH	LINK
-	PUSH	OLINK
-	PUSH	TMPSP	; TMPSP point to where OLINK should be pushed
+	PUSH	RA
+	PUSH	TMPSP	; TMPSP points to where RA should be pushed
 
 	;; skip caller-save (call-clobbered) registers: r7-r11, D, X
 	;; skip reserved registers: r0-r1, r4-r5
-	;; skip PC (r3) as longjmp will return to LINK
+	;; skip PC (r3) as longjmp will return to RA
 
 	;; return 0
 	ldi	0
