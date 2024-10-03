@@ -62,8 +62,8 @@ BEGINF	setjmp
 	PUSH	RA
 	PUSH	TMPSP	; TMPSP points to where RA should be pushed
 
-	;; skip caller-save (call-clobbered) registers: r7-r11, D, X
-	;; skip reserved registers: r0-r1, r4-r5
+	;; skip caller-save (call-clobbered) registers: r6-r10, D, X
+	;; skip reserved registers: r0-r1, r4-r5, r11
 	;; skip PC (r3) as longjmp will return to RA
 
 	;; return 0

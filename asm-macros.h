@@ -18,12 +18,12 @@
 #define PC	3
 #define CALL	4
 #define RETN	5
-/* TODO: define a role for r6 */
+#define STATIC_CHAIN 6
 #define ARG0	7
 #define ARG1	8
 #define ARG2	9
 #define ARG3	10
-#define STATIC_CHAIN 11
+/* TODO: define a role for r11 */
 
 .macro	BEGINF	name
 	.text
