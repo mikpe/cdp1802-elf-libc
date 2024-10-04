@@ -23,7 +23,6 @@
 #define ARG1	8
 #define ARG2	9
 #define ARG3	10
-/* TODO: define a role for r11 */
 
 .macro	BEGINF	name
 	.text

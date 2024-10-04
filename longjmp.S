@@ -54,6 +54,7 @@ BEGINF	longjmp
 	phi	SP
 
 	;; restore remaining registers
+	POP	11
 	POP	12
 	POP	13
 	POP	14

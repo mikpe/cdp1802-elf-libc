@@ -17,7 +17,7 @@
 #ifndef _SETJMP_H
 #define _SETJMP_H
 
-#define _JB_SIZE 6	/* SP, RA, r12-r15 */
+#define _JB_SIZE 7	/* SP, RA, r11-r15 */
 
 typedef unsigned int jmp_buf[_JB_SIZE];
 

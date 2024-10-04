@@ -47,23 +47,24 @@ BEGINF	setjmp
 	;; Adjust ENV to point to the end of the jmp_buf, then set X to ENV.
 	;; We can then use STXD to write to it with auto-decrement.
 	glo	ENV
-	adi	(6*2)-1
+	adi	(7*2)-1
 	plo	ENV
 	ghi	ENV
 	adci	0
 	phi	ENV
 	sex	ENV
 
-	;; save callee-save registers (r12-r15), RA, and TMPSP
+	;; save callee-save registers (r11-r15), RA, and TMPSP
 	PUSH	15
 	PUSH	14
 	PUSH	13
 	PUSH	12
+	PUSH	11
 	PUSH	RA
 	PUSH	TMPSP	; TMPSP points to where RA should be pushed
 
 	;; skip caller-save (call-clobbered) registers: r6-r10, D, X
-	;; skip reserved registers: r0-r1, r4-r5, r11
+	;; skip reserved registers: r0-r1, r4-r5
 	;; skip PC (r3) as longjmp will return to RA
 
 	;; return 0
