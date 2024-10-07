@@ -35,7 +35,7 @@ MATH=	_libm_stub_dd.o _libm_stub_ddd.o _libm_stub_ff.o \
 
 MEMORY=	memchr.o memcmp.o memcpy.o memmove.o mempcpy.o memset.o
 
-MISC=	_assert.o _exit.o _mcount.o _mulovf.o errno.o stubs.o
+MISC=	_assert.o _exit.o _initfini.o _mcount.o _mulovf.o errno.o stubs.o
 
 SETJMP=	longjmp.o setjmp.o
 

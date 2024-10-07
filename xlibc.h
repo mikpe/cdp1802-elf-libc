@@ -42,3 +42,7 @@ void _putint(int val);
 
 /* output s to the console without extra newline */
 void _puts(const char *s);
+
+/* process init/fini arrays (called from crt0.S and exit.S) */
+void __libc_init_array(void);
+void __libc_fini_array(void);

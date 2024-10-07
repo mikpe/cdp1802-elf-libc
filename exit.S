@@ -19,9 +19,20 @@
 /* void exit(int status);
  *
  * Eventually this should close stdio streams and call atexit handlers,
- * but for now just tailcall _exit().
+ * but for now just run destructors and tailcall _exit().
  */
 
 BEGINF	exit
+	glo	ARG0
+	stxd
+	ghi	ARG0
+	stxd
+	sep	CALL
+	.hword	__libc_fini_array
+	inc	SP
+	lda	SP
+	phi	ARG0
+	ldn	SP
+	plo	ARG0
 	lbr	_exit
 ENDF	exit

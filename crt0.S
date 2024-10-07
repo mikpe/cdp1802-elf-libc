@@ -130,6 +130,9 @@ BEGINF	_start
 	plo	PC
 	sep	PC
 3:
+	;; call __libc_init_array
+	sep	CALL
+	.hword	__libc_init_array
 	;; call main()
 	sep	CALL
 	.hword	main
