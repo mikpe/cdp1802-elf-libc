@@ -35,7 +35,7 @@ void abort(void);
 int atoi(const char *nptr);
 void *calloc(size_t nmemb, size_t size);
 div_t div(int num, int den);
-void exit(int status);
+void exit(int status) __attribute__((__noreturn__));
 void free(void *ptr);
 void *malloc(size_t size);
 int posix_memalign(void **memptr, size_t alignment, size_t size);
