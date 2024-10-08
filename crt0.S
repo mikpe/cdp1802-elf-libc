@@ -30,17 +30,15 @@
  *     ARGV: NULL-terminated array of pointers to argument strings
  *     ..    available as stack
  * - verify magic cookie, load ARGC, ARGV, and ENVP into argument registers
- * - store ENVP in environ
- * - initialize SCRT (R4-R6)
+ * - initialize NCRT (R4-R5)
  * - initialize SP from ARGV and push NULL RA
  * - initialize PC
- * - call exit(main(argc, argv, envp))
+ * - tail-call __libc_main(argc, argv, envp)
  */
 
 #define ARGC	ARG0
 #define ARGV	ARG1
 #define ENVP	ARG2
-#define TMP	ARG3
 
 BEGINF	_start
 	;; use SP to access the boot args record
@@ -97,18 +95,7 @@ BEGINF	_start
 
 2:	dec	SP	; point to next available byte, as if STXD was used
 
-	;; store ENVP in environ
-	ldi	%hi(environ)
-	phi	TMP
-	ldi	%lo(environ)
-	plo	TMP
-	ghi	ENVP
-	str	TMP
-	glo	ENVP
-	inc	TMP
-	str	TMP
-
-	;; initialize SCRT
+	;; initialize NCRT
 	ldi	%hi(.CALRTN)
 	phi	CALL
 	ldi	%lo(.CALRTN)
@@ -130,14 +117,9 @@ BEGINF	_start
 	plo	PC
 	sep	PC
 3:
-	;; call __libc_init_array
-	sep	CALL
-	.hword	__libc_init_array
-	;; call main()
-	sep	CALL
-	.hword	main
-	;; tailcall exit()
-	lbr	exit
+	;; tail-call __libc_main()
+	lbr	__libc_main
+	;; NOTREACHED
 
 	;; This is the New Call and Return Technique (NCRT), which differs
 	;; from the old Standard Call and Return Technique (SCRT) as follows:
@@ -197,10 +179,3 @@ BEGINF	_start
 	lbr	.EXITR
 
 ENDF	_start
-
-	.bss
-	.global	environ
-	.type	environ, @object
-	.size	environ, 2
-environ:
-	.zero	2

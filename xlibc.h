@@ -46,3 +46,7 @@ void _puts(const char *s);
 /* process init/fini arrays (called from crt0.S and exit.S) */
 void __libc_init_array(void);
 void __libc_fini_array(void);
+
+/* main() and its libc wrapper */
+int main(int argc, const char **argv, char **envp);
+void __libc_main(int argc, const char **argv, char **envp) __attribute__((__noreturn__));
