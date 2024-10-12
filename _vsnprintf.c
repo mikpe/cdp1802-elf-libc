@@ -1,4 +1,4 @@
-/* snprintf.c
+/* _vsnprintf.c
    Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
@@ -18,13 +18,16 @@
 #include <stdio.h>
 #include "xlibio.h"
 
-int snprintf(char *str, size_t size, const char *fmt, ...)
+int __libc_vsnprintf(char *str, size_t size, const char *fmt, va_list ap)
 {
-    va_list ap;
     int n;
+    struct odev o;
 
-    va_start(ap, fmt);
-    n = __libc_vsnprintf(str, size, fmt, ap);
-    va_end(ap);
+    o.s = str;
+    o.n = size ? size - 1 : 0;
+
+    n = _vprintf(&o, fmt, ap);
+    if (size)
+	_putc(&o, '\0');
     return n;
 }

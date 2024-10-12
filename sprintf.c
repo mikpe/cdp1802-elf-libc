@@ -24,7 +24,7 @@ int sprintf(char *str, const char *fmt, ...)
     int n;
 
     va_start(ap, fmt);
-    n = vsnprintf(str, -1, fmt, ap);
+    n = __libc_vsnprintf(str, -1, fmt, ap);
     va_end(ap);
     return n;
 }

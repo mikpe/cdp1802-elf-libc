@@ -20,5 +20,5 @@
 
 int vsprintf(char *str, const char *fmt, va_list ap)
 {
-    return vsnprintf(str, -1, fmt, ap);
+    return __libc_vsnprintf(str, -1, fmt, ap);
 }

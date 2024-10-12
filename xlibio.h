@@ -40,6 +40,7 @@ struct odev {
     size_t n;	/* remaining size if string, > 0 if console */
 };
 
+int __libc_vsnprintf(char *str, size_t size, const char *fmt, va_list ap);
 void _putc(struct odev *, char c);
 int _vprintf(struct odev *, const char *fmt, va_list ap);
 void _write(struct odev *, const char *s, size_t n);

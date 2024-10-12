@@ -20,14 +20,5 @@
 
 int vsnprintf(char *str, size_t size, const char *fmt, va_list ap)
 {
-    int n;
-    struct odev o;
-
-    o.s = str;
-    o.n = size ? size - 1 : 0;
-
-    n = _vprintf(&o, fmt, ap);
-    if (size)
-	_putc(&o, '\0');
-    return n;
+    return __libc_vsnprintf(str, size, fmt, ap);
 }
