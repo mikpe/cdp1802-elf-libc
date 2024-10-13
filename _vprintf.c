@@ -380,6 +380,18 @@ static int emit_signed(struct odev *o, struct pfmt *pfmt)
     char sign;
     int n;
 
+    switch (pfmt->lmod) {
+    case LMOD_INT8:
+	pfmt->val.u64 = (int64_t)(int8_t)pfmt->val.u64;
+	break;
+    case LMOD_INT16:
+	pfmt->val.u64 = (int64_t)(int16_t)pfmt->val.u64;
+	break;
+    case LMOD_INT32:
+	pfmt->val.u64 = (int64_t)(int32_t)pfmt->val.u64;
+	break;
+    }
+
     if ((int64_t)pfmt->val.u64 < 0) {
 	sign = '-';
 	pfmt->val.u64 = -pfmt->val.u64;
@@ -614,8 +626,11 @@ static int t_printf(struct odev *o, const char *fmt, ...)
 
 static int test00(struct odev *o) { return t_printf(o, "gazonk"); }
 
+static int test01(struct odev *o) { return t_printf(o, "%d", -16); }
+
 static const struct test tests[] = {
-    { test00, "gazonk" }
+    { test00, "gazonk" },
+    { test01, "-16" },
 };
 
 static int test(unsigned int i)
