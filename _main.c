@@ -19,6 +19,8 @@
 
 char **environ;
 
+extern int main(int argc, const char **argv, char **envp);
+
 __attribute__((__noreturn__))
 void __libc_main(int argc, const char **argv, char **envp)
 {

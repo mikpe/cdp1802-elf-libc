@@ -47,6 +47,5 @@ void _puts(const char *s);
 void __libc_init_array(void);
 void __libc_fini_array(void);
 
-/* main() and its libc wrapper */
-int main(int argc, const char **argv, char **envp);
+/* main()'s libc wrapper */
 void __libc_main(int argc, const char **argv, char **envp) __attribute__((__noreturn__));
