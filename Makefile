@@ -16,11 +16,14 @@
 
 TRIPLET=cdp1802-unknown-elf
 
+ARCH ?= 1802
+
 CROSS_COMPILE=$(TRIPLET)-
 AR=$(CROSS_COMPILE)ar
+ASFLAGS=-march=$(ARCH)
 CC=$(CROSS_COMPILE)gcc
 CPPFLAGS=-Iinclude
-CFLAGS=-Wall -Os -ffreestanding
+CFLAGS=-Wall -Os -ffreestanding -march=$(ARCH)
 
 PREFIX=usr
 
@@ -54,7 +57,14 @@ LIBC=	$(CTYPE) $(MEMORY) $(MISC) $(SETJMP) $(SIGNAL) $(STDIO) $(STDLIB) $(STRING
 
 LIBM=	$(MATH)
 
-build:	$(BUILD)
+build:
+	$(MAKE) ARCH=1802 build-arch
+	$(MAKE) ARCH=1804 build-arch
+
+build-arch:	$(BUILD)
+	mkdir -p build-$(ARCH)
+	mv $(BUILD) build-$(ARCH)
+	mv *.o build-$(ARCH)
 
 libc.a:	$(LIBC)
 	$(AR) ruv libc.a $(LIBC)
@@ -62,12 +72,19 @@ libc.a:	$(LIBC)
 libm.a:	$(LIBM)
 	$(AR) ruv libm.a $(LIBM)
 
-install:	$(BUILD)
-	mkdir -p $(DESTDIR)/$(PREFIX)/lib
-	cp $(BUILD) $(DESTDIR)/$(PREFIX)/lib/
+install:	install-common
+	$(MAKE) ARCH=1802 install-arch
+	$(MAKE) ARCH=1804 install-arch
+
+install-arch:	build-$(ARCH)
+	mkdir -p $(DESTDIR)/$(PREFIX)/lib/$(ARCH)
+	cd build-$(ARCH) && cp $(BUILD) $(DESTDIR)/$(PREFIX)/lib/$(ARCH)
+
+install-common:
 	mkdir -p $(DESTDIR)/$(PREFIX)/include/sys
 	cp include/*.h $(DESTDIR)/$(PREFIX)/include/
 	cp include/sys/*.h $(DESTDIR)/$(PREFIX)/include/sys/
 
 clean:
 	rm -f $(BUILD) $(LIBC) $(LIBM)
+	rm -rf build-1802 build-1804
