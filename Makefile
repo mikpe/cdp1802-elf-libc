@@ -1,5 +1,5 @@
 # cdp1802-elf-libc
-# Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+# Copyright (C) 2024-2025  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,8 +24,6 @@ ASFLAGS=-march=$(ARCH)
 CC=$(CROSS_COMPILE)gcc
 CPPFLAGS=-Iinclude
 CFLAGS=-Wall -Os -ffreestanding -march=$(ARCH)
-
-PREFIX=usr
 
 BUILD=	crt0.o libc.a libm.a
 
@@ -77,13 +75,13 @@ install:	install-common
 	$(MAKE) ARCH=1804 install-arch
 
 install-arch:	build-$(ARCH)
-	mkdir -p $(DESTDIR)/$(PREFIX)/lib/$(ARCH)
-	cd build-$(ARCH) && cp $(BUILD) $(DESTDIR)/$(PREFIX)/lib/$(ARCH)
+	mkdir -p $(PREFIX)/usr/lib/$(ARCH)
+	cd build-$(ARCH) && cp $(BUILD) $(PREFIX)/usr/lib/$(ARCH)
 
 install-common:
-	mkdir -p $(DESTDIR)/$(PREFIX)/include/sys
-	cp include/*.h $(DESTDIR)/$(PREFIX)/include/
-	cp include/sys/*.h $(DESTDIR)/$(PREFIX)/include/sys/
+	mkdir -p $(PREFIX)/usr/include/sys
+	cp include/*.h $(PREFIX)/usr/include/
+	cp include/sys/*.h $(PREFIX)/usr/include/sys/
 
 clean:
 	rm -f $(BUILD) $(LIBC) $(LIBM)
