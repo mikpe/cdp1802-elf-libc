@@ -1,5 +1,5 @@
 /* unistd.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,12 +17,17 @@
 #ifndef _UNISTD_H
 #define _UNISTD_H
 
+#include <sys/types.h>
 #include <stddef.h>
 
+int dup(int oldfd);
 void _exit(int status) __attribute__((__noreturn__));
 int close(int fd);
+int getpid(void);
 int isatty(int fd);
+off_t lseek(int fd, off_t offset, int whence);
 int open(const char *path, int flags, ...);
-int read(int fd, void *buf, size_t count);	/* FIXME: return type should be ssize_t */
+ssize_t read(int fd, void *buf, size_t count);
+ssize_t write(int fd, const void *buf, size_t count);
 
 #endif /* !_UNISTD_H */

@@ -1,5 +1,5 @@
 /* sys/stat.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,5 +16,19 @@
 
 #ifndef _SYS_STAT_H
 #define _SYS_STAT_H
+
+struct stat {
+    int st_dev;
+    int st_ino;
+    int st_nlink;
+    int st_mode;
+    int st_size;
+    int st_mtime;
+};
+
+#define S_IWUSR		0200	/* Write by owner.  */
+
+int fstat(int fd, struct stat *statbuf);
+int stat(const char *pathname, struct stat *statbuf);
 
 #endif /* !_SYS_STAT_H */

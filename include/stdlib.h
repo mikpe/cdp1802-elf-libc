@@ -1,5 +1,5 @@
 /* stdlib.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,12 +31,25 @@ typedef struct {
     int rem;
 } div_t;
 
+typedef struct {
+    long quot;
+    long rem;
+} ldiv_t;
+
 void abort(void);
+int abs(int j);
+int atexit(void (*function)(void));
+double atof(const char *nptr);
 int atoi(const char *nptr);
+long atol(const char *nptr);
+void *bsearch(const void *key, const void *base, size_t n, size_t size, int (*compar)(const void *, const void *));
 void *calloc(size_t nmemb, size_t size);
 div_t div(int num, int den);
 void exit(int status) __attribute__((__noreturn__));
 void free(void *ptr);
+char *getenv(const char *name);
+long labs(long l);
+ldiv_t ldiv(long num, long den);
 void *malloc(size_t size);
 int posix_memalign(void **memptr, size_t alignment, size_t size);
 int putenv(char *string);
@@ -44,5 +57,10 @@ void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, co
 int rand(void);
 void *realloc(void *ptr, size_t size);
 void srand(unsigned int seed);
+double strtod(const char *nptr, char **endptr);
+float strtof(const char *nptr, char **endptr);
+long strtol(const char *nptr, char **endptr, int base);
+unsigned long strtoul(const char *nptr, char **endptr, int base);
+int system(const char *command);
 
 #endif /* !_STDLIB_H */

@@ -1,5 +1,5 @@
 /* string.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,15 +29,21 @@ char *strchr(const char *s, int c);
 size_t strlen(const char *s);
 char *strcat(char *dst, const char *src);
 int strcmp(const char *s1, const char *s2);
+int strcoll(const char *s1, const char *s2);
 char *strcpy(char *dst, const char *src);
+size_t strcspn(const char *s, const char *accept);
 char *strdup(const char *s);
+char *strerror(int errnum);
 int strncmp(const char *s1, const char *s2, size_t n);
 char *strndup(const char *s, size_t n);
 size_t strnlen(const char *s, size_t n);
 char *strncat(char *dst, const char *src, size_t n);
 char *strncpy(char *dst, const char *src, size_t n);
 char *strrchr(const char *s, int c);
+char *strpbrk(const char *s, const char *accept);
 size_t strspn(const char *s, const char *accept);
+char *strstr(const char *haystack, const char *needle);
 char *strtok(char *str, const char *delim);
+size_t strxfrm(char *dest, const char *src, size_t n);
 
 #endif /* !_STRING_H */

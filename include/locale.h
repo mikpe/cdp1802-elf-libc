@@ -1,5 +1,5 @@
-/* ctype.h
-   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
+/* locale.h
+   Copyright (C) 2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,32 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _CTYPE_H
-#define _CTYPE_H
+#ifndef _LOCALE_H
+#define _LOCALE_H
 
-#define _U 0x01
-#define _L 0x02
-#define _N 0x04
-#define _X 0x08
-#define _S 0x10
-#define _P 0x20
-#define _B 0x40
-#define _C 0x80
+#define LC_ALL		0
+#define LC_COLLATE	1
+#define LC_CTYPE	2
+#define LC_MONETARY	3
+#define LC_NUMERIC	4
+#define LC_TIME		5
 
-extern const char _ctype_[];
+struct lconv;
 
-int isalnum(int c);
-int isalpha(int c);
-int iscntrl(int c);
-int isdigit(int c);
-int isgraph(int c);
-int islower(int c);
-int isprint(int c);
-int ispunct(int c);
-int isspace(int c);
-int isupper(int c);
-int isxdigit(int c);
-int tolower(int c);
-int toupper(int c);
+struct lconv *localeconv(void);
+char *setlocale(int category, const char *locale);
 
-#endif /* !_CTYPE_H */
+#endif /* !_LOCALE_H */

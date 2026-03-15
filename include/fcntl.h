@@ -1,5 +1,5 @@
 /* fcntl.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,5 +21,12 @@
 #define O_RDONLY	00
 #define O_WRONLY	01
 #define O_RDWR		02
+#define O_CREAT		00100
+#define O_EXCL		00200
+#define O_TRUNC		01000
+
+#define F_SETFD		2	/* get/clear close_on_exec */
+
+int fcntl(int fd, int op, ...);
 
 #endif /* !_FCNTL_H */

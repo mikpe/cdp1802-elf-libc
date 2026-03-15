@@ -1,5 +1,5 @@
 /* sys/types.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,5 +19,9 @@
 
 /* make gcc.dg/builtins-config.h not define HAVE_C99_RUNTIME */
 #define _NEWLIB_VERSION
+
+typedef unsigned int mode_t;
+typedef long off_t;
+typedef int ssize_t;
 
 #endif /* !_SYS_TYPES_H */

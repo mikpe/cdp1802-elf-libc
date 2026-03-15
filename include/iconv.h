@@ -1,5 +1,5 @@
 /* iconv.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,5 +16,11 @@
 
 #ifndef _ICONV_H
 #define _ICONV_H
+
+typedef void *iconv_t;
+
+size_t iconv(iconv_t cd, char **inbuf, size_t *inbytesleft, char **outbuf, size_t *outbytesleft);
+int iconv_close(iconv_t cd);
+iconv_t iconv_open(const char *tocode, const char *fromcode);
 
 #endif /* !_ICONV_H */
