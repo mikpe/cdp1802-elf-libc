@@ -17,6 +17,10 @@
 #ifndef _CTYPE_H
 #define _CTYPE_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 #define _U 0x01
 #define _L 0x02
 #define _N 0x04
@@ -41,5 +45,7 @@ int isupper(int c);
 int isxdigit(int c);
 int tolower(int c);
 int toupper(int c);
+
+__END_DECLS
 
 #endif /* !_CTYPE_H */

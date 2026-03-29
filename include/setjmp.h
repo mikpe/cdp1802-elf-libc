@@ -1,5 +1,5 @@
 /* setjmp.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,11 +17,17 @@
 #ifndef _SETJMP_H
 #define _SETJMP_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 #define _JB_SIZE 7	/* SP, RA, r11-r15 */
 
 typedef unsigned int jmp_buf[_JB_SIZE];
 
 void longjmp(jmp_buf env, int val);
 int setjmp(jmp_buf env);
+
+__END_DECLS
 
 #endif /* !_SETJMP_H */

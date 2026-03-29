@@ -17,6 +17,10 @@
 #ifndef _STDIO_H
 #define _STDIO_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 #include <stdarg.h>	/* for va_list */
 #include <stddef.h>	/* for NULL, size_t */
 
@@ -86,5 +90,7 @@ int vfprintf(FILE *stream, const char *format, va_list ap);
 int vprintf(const char *format, va_list ap);
 int vsnprintf(char *str, size_t size, const char *fmt, va_list ap);
 int vsprintf(char *str, const char *format, va_list ap);
+
+__END_DECLS
 
 #endif /* !_STDIO_H */

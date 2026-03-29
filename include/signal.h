@@ -1,5 +1,5 @@
 /* signal.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,6 +16,10 @@
 
 #ifndef _SIGNAL_H
 #define _SIGNAL_H
+
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
 
 typedef char sig_atomic_t;
 
@@ -36,5 +40,7 @@ extern _sighandler_t _sighandlers[];
 
 _sighandler_t signal(int sig, _sighandler_t handler);
 int raise(int sig);
+
+__END_DECLS
 
 #endif /* !_SIGNAL_H */

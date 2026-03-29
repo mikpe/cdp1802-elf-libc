@@ -17,6 +17,10 @@
 #ifndef _MATH_H
 #define _MATH_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 double acos(double x);
 float acosf(float x);
 double acosh(double x);
@@ -100,5 +104,7 @@ double trunc(double x);
 
 #define isnan(x) __builtin_isnan ((x))
 #define signbit(x) __builtin_signbit ((x))
+
+__END_DECLS
 
 #endif /* !_MATH_H */

@@ -17,6 +17,10 @@
 #ifndef _STDLIB_H
 #define _STDLIB_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 #include <stddef.h>	/* for size_t */
 
 typedef int ssize_t;
@@ -62,5 +66,7 @@ float strtof(const char *nptr, char **endptr);
 long strtol(const char *nptr, char **endptr, int base);
 unsigned long strtoul(const char *nptr, char **endptr, int base);
 int system(const char *command);
+
+__END_DECLS
 
 #endif /* !_STDLIB_H */

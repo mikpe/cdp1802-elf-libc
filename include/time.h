@@ -17,6 +17,10 @@
 #ifndef _TIME_H
 #define _TIME_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 #include <stddef.h>
 
 typedef unsigned int clock_t;
@@ -48,5 +52,7 @@ char *ctime(const time_t *timep);
 struct tm *gmtime(const time_t *timep);
 struct tm *localtime(const time_t *timep);
 size_t strftime(char *s, size_t max, const char *format, const struct tm *tm);
+
+__END_DECLS
 
 #endif /* !_TIME_H */

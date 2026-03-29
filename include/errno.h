@@ -17,6 +17,10 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 extern int errno;
 
 #define EPERM            1      /* Operation not permitted */
@@ -86,5 +90,7 @@ extern int errno;
 #define EINPROGRESS     115     /* Operation now in progress */
 
 #define ENOTSUP         EOPNOTSUPP
+
+__END_DECLS
 
 #endif /* !_ERRNO_H */

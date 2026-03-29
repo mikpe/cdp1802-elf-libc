@@ -17,11 +17,17 @@
 #ifndef _SYS_TYPES_H
 #define _SYS_TYPES_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 /* make gcc.dg/builtins-config.h not define HAVE_C99_RUNTIME */
 #define _NEWLIB_VERSION
 
 typedef unsigned int mode_t;
 typedef long off_t;
 typedef int ssize_t;
+
+__END_DECLS
 
 #endif /* !_SYS_TYPES_H */

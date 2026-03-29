@@ -1,5 +1,5 @@
 /* assert.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,12 +25,18 @@
 
 #else /* !NDEBUG */
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 void _assert(const char *);
 
 #define _ASSERT_STR2(x) #x
 #define _ASSERT_STR(x) _ASSERT_STR2(x)
 
 #define assert(expr) ((expr) ? (void) 0 : _assert(__FILE__ ":" _ASSERT_STR(__LINE__) " " #expr))
+
+__END_DECLS
 
 #endif /* !NDEBUG */
 

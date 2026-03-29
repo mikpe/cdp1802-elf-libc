@@ -17,6 +17,10 @@
 #ifndef _SYS_STAT_H
 #define _SYS_STAT_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 struct stat {
     int st_dev;
     int st_ino;
@@ -30,5 +34,7 @@ struct stat {
 
 int fstat(int fd, struct stat *statbuf);
 int stat(const char *pathname, struct stat *statbuf);
+
+__END_DECLS
 
 #endif /* !_SYS_STAT_H */

@@ -17,10 +17,16 @@
 #ifndef _ICONV_H
 #define _ICONV_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 typedef void *iconv_t;
 
 size_t iconv(iconv_t cd, char **inbuf, size_t *inbytesleft, char **outbuf, size_t *outbytesleft);
 int iconv_close(iconv_t cd);
 iconv_t iconv_open(const char *tocode, const char *fromcode);
+
+__END_DECLS
 
 #endif /* !_ICONV_H */

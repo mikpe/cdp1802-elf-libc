@@ -1,5 +1,5 @@
-/* alloca.h
-   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
+/* cdefs.h
+   Copyright (C) 2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,19 +14,16 @@
    You should have received a copy of the GNU General Public License
    along with this library.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef _ALLOCA_H
-#define _ALLOCA_H
+#ifndef _SYS_CDEFS_H
+#define _SYS_CDEFS_H
 
-#include <sys/cdefs.h>
+/* Tell C++ that libc is C not C++.  */
+#if defined __cplusplus
+#define __BEGIN_DECLS	extern "C" {
+#define __END_DECLS	}
+#else
+#define __BEGIN_DECLS
+#define __END_DECLS
+#endif
 
-__BEGIN_DECLS
-
-#include <stddef.h>	/* for size_t */
-
-#undef alloca
-void *alloca(size_t size);
-#define alloca(size) __builtin_alloca((size))
-
-__END_DECLS
-
-#endif /* !_ALLOCA_H */
+#endif /* !_SYS_CDEFS_H */

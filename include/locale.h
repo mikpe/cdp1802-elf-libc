@@ -17,6 +17,10 @@
 #ifndef _LOCALE_H
 #define _LOCALE_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 #define LC_ALL		0
 #define LC_COLLATE	1
 #define LC_CTYPE	2
@@ -28,5 +32,7 @@ struct lconv;
 
 struct lconv *localeconv(void);
 char *setlocale(int category, const char *locale);
+
+__END_DECLS
 
 #endif /* !_LOCALE_H */

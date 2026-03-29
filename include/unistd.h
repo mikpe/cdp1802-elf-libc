@@ -17,6 +17,10 @@
 #ifndef _UNISTD_H
 #define _UNISTD_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 #include <sys/types.h>
 #include <stddef.h>
 
@@ -29,5 +33,7 @@ off_t lseek(int fd, off_t offset, int whence);
 int open(const char *path, int flags, ...);
 ssize_t read(int fd, void *buf, size_t count);
 ssize_t write(int fd, const void *buf, size_t count);
+
+__END_DECLS
 
 #endif /* !_UNISTD_H */

@@ -17,6 +17,10 @@
 #ifndef _FCNTL_H
 #define _FCNTL_H
 
+#include <sys/cdefs.h>
+
+__BEGIN_DECLS
+
 #define O_ACCMODE	0003
 #define O_RDONLY	00
 #define O_WRONLY	01
@@ -28,5 +32,7 @@
 #define F_SETFD		2	/* get/clear close_on_exec */
 
 int fcntl(int fd, int op, ...);
+
+__END_DECLS
 
 #endif /* !_FCNTL_H */
