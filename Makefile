@@ -1,5 +1,5 @@
 # cdp1802-elf-libc
-# Copyright (C) 2024-2025  Mikael Pettersson <mikpelinux@gmail.com>
+# Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,7 +46,8 @@ STDIO=	_is_console.o _num2dec.o _putc.o _putint.o _puts.o _vprintf.o _vsnprintf.
 	fprintf.o fputc.o fputs.o fwrite.o perror.o printf.o putchar.o puts.o \
 	snprintf.o sprintf.o stdfiles.o vfprintf.o vprintf.o vsnprintf.o vsprintf.o
 
-STDLIB=	abort.o calloc.o div.o exit.o free.o malloc.o qsort.o rand.o realloc.o srand.o
+STDLIB=	abort.o calloc.o div.o exit.o free.o malloc.o qsort.o rand.o realloc.o srand.o \
+	strtoul.o
 
 STRING=	strcat.o strchr.o strcmp.o strcpy.o strdup.o strlen.o strncasecmp.o \
 	strncat.o strncmp.o strncpy.o strndup.o strnlen.o strrchr.o strspn.o
