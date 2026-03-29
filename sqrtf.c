@@ -1,5 +1,5 @@
 /* sqrtf.c
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,8 +19,11 @@
 #include "xlibm.h"
 
 static const struct stub_ff sqrtf_stub = {
-    "sqrtf", 0xA2, 1, {
+    "sqrtf", 0xA2, 4, {
+	{ {0x40800000}, {0x40000000} },
+	{ {0x41800000}, {0x40800000} },
 	{ {0x41e80000}, {0x40ac5345} },
+	{ {0x42800000}, {0x41000000} },
     }
 };
 

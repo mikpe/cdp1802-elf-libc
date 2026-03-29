@@ -1,5 +1,5 @@
 /* gen-stubs.c
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1051,7 +1051,10 @@ static void gen_sqrt_stub(void)
 }
 
 static const uint32_t sqrtf_tab[] = {
+    0x40800000,
+    0x41800000,
     0x41e80000,
+    0x42800000,
 };
 
 static void gen_sqrtf_stub(void)
