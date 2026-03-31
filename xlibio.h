@@ -30,10 +30,12 @@
 
 struct __FILE {
     unsigned char flags;
+    unsigned char ungetc;	/* only valid for stdin */
 };
 
-#define F_EOF	0x01
-#define F_ERR	0x02
+#define F_EOF		0x01
+#define F_ERR		0x02
+#define F_UNGETC	0x04	/* only valid for stdin */
 
 /* true if the FILE is stdout or stderr, false otherwise */
 bool _is_console(const FILE *);
