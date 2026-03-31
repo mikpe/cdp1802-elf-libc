@@ -1,5 +1,5 @@
 /* xlibio.h
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,9 +28,12 @@
  * - output generation continues after output string is full
  */
 
-struct __FILE {		/* only the address of the FILE is significant */
-    char _filler;
+struct __FILE {
+    unsigned char flags;
 };
+
+#define F_EOF	0x01
+#define F_ERR	0x02
 
 /* true if the FILE is stdout or stderr, false otherwise */
 bool _is_console(const FILE *);
