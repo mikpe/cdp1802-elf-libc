@@ -44,8 +44,8 @@ SIGNAL=	raise.o signal.o
 
 STDIO=	_is_console.o _num2dec.o _putc.o _putint.o _puts.o _vprintf.o _vsnprintf.o \
 	_write.o feof.o ferror.o fgetc.o fprintf.o fputc.o fputs.o fread.o fwrite.o \
-	perror.o printf.o putchar.o puts.o snprintf.o sprintf.o stdfiles.o ungetc.o \
-	vfprintf.o vprintf.o vsnprintf.o vsprintf.o
+	perror.o printf.o putchar.o puts.o setvbuf.o snprintf.o sprintf.o stdfiles.o \
+	ungetc.o vfprintf.o vprintf.o vsnprintf.o vsprintf.o
 
 STDLIB=	abort.o calloc.o div.o exit.o free.o getenv.o malloc.o qsort.o rand.o realloc.o \
 	srand.o strtoul.o
