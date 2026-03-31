@@ -1,5 +1,5 @@
 /* fwrite.c
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,11 +26,13 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 
     res = _mulovf(nmemb, size);
     if (res.overflow) {
+	/* this is not an I/O error */
 	errno = EINVAL;
 	return 0;
     }
 
-    if (!_is_console(stream)) {
+    if (!_is_console(stream) && res.product != 0) {
+	stream->flags |= F_ERR;
 	errno = EINVAL;
 	return 0;
     }
