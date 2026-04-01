@@ -1,5 +1,5 @@
 /* exit.c
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,7 +21,8 @@
 __attribute__((__noreturn__))
 void exit(int status)
 {
-    /* TODO: close stdio stream and call atexit handlers */
+    /* TODO: close stdio streams */
+    __libc_atexit();
     __libc_fini_array();
     _exit(status);
 }

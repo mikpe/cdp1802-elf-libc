@@ -43,9 +43,12 @@ void _putint(int val);
 /* output s to the console without extra newline */
 void _puts(const char *s);
 
-/* process init/fini arrays (called from crt0.S and exit.S) */
+/* process init/fini arrays */
 void __libc_init_array(void);
 void __libc_fini_array(void);
+
+/* process atexit array */
+void __libc_atexit(void);
 
 /* main()'s libc wrapper */
 void __libc_main(int argc, const char **argv, char **envp) __attribute__((__noreturn__));
