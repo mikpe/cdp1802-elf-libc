@@ -31,6 +31,8 @@ CRT=	crt0.o
 
 CTYPE=	iscntrl.o isprint.o
 
+LOCALE=	setlocale.o
+
 MATH=	_libm_stub_dd.o _libm_stub_ddd.o _libm_stub_ff.o \
 	atanf.o cbrt.o floor.o fmax.o ilogb.o log.o pow.o sqrt.o sqrtf.o
 
@@ -53,7 +55,7 @@ STDLIB=	abort.o atexit.o calloc.o div.o exit.o free.o getenv.o malloc.o qsort.o 
 STRING=	strcat.o strchr.o strcmp.o strcpy.o strdup.o strerror.o strlen.o strncasecmp.o \
 	strncat.o strncmp.o strncpy.o strndup.o strnlen.o strrchr.o strspn.o
 
-LIBC=	$(CTYPE) $(MEMORY) $(MISC) $(SETJMP) $(SIGNAL) $(STDIO) $(STDLIB) $(STRING)
+LIBC=	$(CTYPE) $(LOCALE) $(MEMORY) $(MISC) $(SETJMP) $(SIGNAL) $(STDIO) $(STDLIB) $(STRING)
 
 LIBM=	$(MATH)
 
