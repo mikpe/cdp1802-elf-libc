@@ -84,7 +84,6 @@ int snprintf(char *str, size_t size, const char *format, ...);
 int sprintf(char *str, const char *format, ...);
 int sscanf(const char *str, const char *format, ...);
 FILE *tmpfile(void);
-/*char *tmpnam(char *s);*/
 int ungetc(int c, FILE *stream);
 int vfprintf(FILE *stream, const char *format, va_list ap);
 int vprintf(const char *format, va_list ap);

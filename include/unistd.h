@@ -21,18 +21,12 @@
 
 __BEGIN_DECLS
 
-#include <sys/types.h>
-#include <stddef.h>
-
 int dup(int oldfd);
 void _exit(int status) __attribute__((__noreturn__));
 int close(int fd);
 int getpid(void);
 int isatty(int fd);
-off_t lseek(int fd, off_t offset, int whence);
 int open(const char *path, int flags, ...);
-ssize_t read(int fd, void *buf, size_t count);
-ssize_t write(int fd, const void *buf, size_t count);
 
 __END_DECLS
 
