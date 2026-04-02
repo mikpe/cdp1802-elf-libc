@@ -21,6 +21,8 @@
 
 __BEGIN_DECLS
 
+#define HUGE_VAL (__builtin_huge_val ())
+
 double acos(double x);
 float acosf(float x);
 double acosh(double x);
