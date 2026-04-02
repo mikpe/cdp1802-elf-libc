@@ -29,7 +29,7 @@ BUILD=	crt0.o libc.a libm.a
 
 CRT=	crt0.o
 
-CTYPE=	iscntrl.o isprint.o
+CTYPE=	ctype.o iscntrl.o isprint.o
 
 LOCALE=	setlocale.o
 
