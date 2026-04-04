@@ -34,7 +34,7 @@ struct tm {
     int tm_mon;
     int tm_year;
     int tm_wday;
-    unsigned int tm_yday;
+    int tm_yday;
     int tm_isdst;
 };
 
