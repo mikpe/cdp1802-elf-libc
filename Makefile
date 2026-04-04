@@ -57,7 +57,9 @@ STRING=	strcat.o strchr.o strcmp.o strcoll.o strcpy.o strdup.o strerror.o strlen
 	strncasecmp.o strncat.o strncmp.o strncpy.o strndup.o strnlen.o strrchr.o strspn.o \
 	strxfrm.o
 
-LIBC=	$(CTYPE) $(LOCALE) $(MEMORY) $(MISC) $(SETJMP) $(SIGNAL) $(STDIO) $(STDLIB) $(STRING)
+TIME=	strftime.o
+
+LIBC=	$(CTYPE) $(LOCALE) $(MEMORY) $(MISC) $(SETJMP) $(SIGNAL) $(STDIO) $(STDLIB) $(STRING) $(TIME)
 
 LIBM=	$(MATH)
 
