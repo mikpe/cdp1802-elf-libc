@@ -68,6 +68,40 @@ static const char *months[12] = {
     "December"
 };
 
+static bool is_leap_year(int tm_year)
+{
+    int y = tm_year + 1900;
+    return ((y % 4) == 0) && ((y % 100) != 0 || ((y % 400) == 0));
+}
+
+static int week_nr(const struct tm *tm)
+{
+    int wknr;
+
+    wknr = (tm->tm_yday + 7U - ((tm->tm_wday + 6U) % 7)) / 7;
+
+    if (((tm->tm_wday + 371U - tm->tm_yday - 2) % 7) <= 2)
+	++wknr;
+
+    if (wknr == 0) {
+	wknr = 52;
+	/* If 31 December of previous year is a Thursday,
+	   or a Friday of a leap year, then the previous
+	   year has 53 weeks.  */
+	int dec31 = (tm->tm_wday + 7U - tm->tm_yday - 1) % 7;
+	if (dec31 == 4 || (dec31 == 5 && is_leap_year((tm->tm_year % 400) - 1)))
+	    wknr = 53;
+    } else if (wknr == 53) {
+	/* If 1 January is not a Thursday, and not a Wednesday
+	   of a leap year, then this year has only 52 weeks.  */
+	int jan1 = (tm->tm_wday + 371U - tm->tm_yday) % 7;
+	if (jan1 != 4 && (jan1 != 3 || !is_leap_year(tm->tm_year)))
+	    wknr = 1;
+    }
+
+    return wknr;
+}
+
 /* Reduce the character after '%' to a symbolic conversion specifier.  */
 
 #define CONV_a		0
@@ -81,25 +115,29 @@ static const char *months[12] = {
 #define CONV_e		8
 #define CONV_EO		9	/* 'E' and 'O' */
 #define CONV_F		10
-#define CONV_H		11
-#define CONV_I		12
-#define CONV_j		13
-#define CONV_m		14
-#define CONV_M		15
-#define CONV_n		16
-#define CONV_p		17
-#define CONV_r		18
-#define CONV_R		19
-#define CONV_S		20
-#define CONV_t		21
-#define CONV_TX		22	/* 'T' and 'X' */
-#define CONV_u		23
-#define CONV_w		24
-#define CONV_y		25
-#define CONV_Y		26
-#define CONV_PCNT	27	/* '%' */
+#define CONV_Gg		11	/* 'G' and 'g' */
+#define CONV_H		12
+#define CONV_I		13
+#define CONV_j		14
+#define CONV_m		15
+#define CONV_M		16
+#define CONV_n		17
+#define CONV_p		18
+#define CONV_r		19
+#define CONV_R		20
+#define CONV_S		21
+#define CONV_t		22
+#define CONV_TX		23	/* 'T' and 'X' */
+#define CONV_u		24
+#define CONV_U		25
+#define CONV_V		26
+#define CONV_w		27
+#define CONV_W		28
+#define CONV_y		29
+#define CONV_Y		30
+#define CONV_PCNT	31	/* '%' */
 
-/* TBD: 'g', 'G', 'U', 'V', 'W', 'z', 'Z' */
+/* TBD: 'z', 'Z' */
 
 static const struct ch2conv {
     char c;
@@ -113,6 +151,7 @@ static const struct ch2conv {
     { 'D', CONV_Dx },
     { 'E', CONV_EO },
     { 'F', CONV_F },
+    { 'G', CONV_Gg },
     { 'H', CONV_H },
     { 'I', CONV_I },
     { 'M', CONV_M },
@@ -120,6 +159,9 @@ static const struct ch2conv {
     { 'R', CONV_R },
     { 'S', CONV_S },
     { 'T', CONV_TX },
+    { 'U', CONV_U },
+    { 'V', CONV_V },
+    { 'W', CONV_W },
     { 'X', CONV_TX },
     { 'Y', CONV_Y },
     { 'a', CONV_a },
@@ -127,6 +169,7 @@ static const struct ch2conv {
     { 'c', CONV_c },
     { 'd', CONV_d },
     { 'e', CONV_e },
+    { 'g', CONV_Gg },
     { 'h', CONV_bh },
     { 'j', CONV_j },
     { 'm', CONV_m },
@@ -204,6 +247,20 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 	    case CONV_F:
 		str = "%Y-%m-%d";
 		goto do_recurse;
+	    case CONV_Gg:
+	    {
+		int yr = tm->tm_year + 1900L;
+		if (tm->tm_yday < 3 && week_nr(tm) != 1)
+		    --yr;
+		else if (tm->tm_yday > 360 && week_nr(tm) == 1)
+		    ++yr;
+		snprintf(buf, 5, "%04u", yr);
+		if (c == 'g') {
+		    str = buf + 2;
+		    goto do_append_str;
+		}
+		break;
+	    }
 	    case CONV_H:
 		snprintf(buf, 3, "%02u", tm->tm_hour);
 		break;
@@ -252,9 +309,18 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 	    case CONV_u:
 		c = '0' + (tm->tm_wday ? tm->tm_wday : 7);
 		goto do_append_char;
+	    case CONV_U:
+		snprintf(buf, 3, "%02u", (tm->tm_yday + 7U - tm->tm_wday) / 7);
+		break;
+	    case CONV_V:
+		snprintf(buf, 2, "%02u", week_nr(tm));
+		break;
 	    case CONV_w:
 		c = '0' + tm->tm_wday;
 		goto do_append_char;
+	    case CONV_W:
+		snprintf(buf, 3, "%02u", (tm->tm_yday + 7U - ((tm->tm_wday + 6U) % 7)) / 7);
+		break;
 	    case CONV_y:
 		snprintf(buf, 5, "%04u", tm->tm_year + 1900);
 		str = buf+2;
