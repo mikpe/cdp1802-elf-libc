@@ -186,7 +186,7 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 		goto do_recurse;
 	    case CONV_C:
 		snprintf(buf, 5, "%04u", tm->tm_year + 1900);
-		buf[2] = '\0';
+		buf[2] = '\0';	/* truncate after century part */
 		break;
 	    case CONV_d:
 		snprintf(buf, 3, "%02u", tm->tm_mday);
@@ -196,7 +196,6 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 		goto do_recurse;
 	    case CONV_e:
 		snprintf(buf, 3, "%2u", tm->tm_mday);
-		buf[2] = '\0';
 		break;
 	    case CONV_EO:
 		/* Alternative era-based format modifier, or alternative
@@ -211,9 +210,9 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 	    case CONV_I:
 	    {
 		int hr = tm->tm_hour;
-		if (hr >= 12)
+		if (hr > 12)
 		    hr -= 12;
-		if (hr == 0)
+		else if (hr == 0)
 		    hr = 12;
 		snprintf(buf, 3, "%02u", hr);
 		break;
@@ -230,7 +229,6 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 	    case CONV_n:
 		c = '\n';
 		goto do_append_char;
-		break;
 	    case CONV_p:
 		buf[0] = (tm->tm_hour >= 12) ? 'P' : 'A';
 		buf[1] = 'M';
@@ -252,16 +250,13 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 		str = "%H:%M:%S";
 		goto do_recurse;
 	    case CONV_u:
-		c = '0' + tm->tm_wday;
-		if (c == '0')
-		    c = '7';
+		c = '0' + (tm->tm_wday ? tm->tm_wday : 7);
 		goto do_append_char;
 	    case CONV_w:
 		c = '0' + tm->tm_wday;
 		goto do_append_char;
 	    case CONV_y:
 		snprintf(buf, 5, "%04u", tm->tm_year + 1900);
-		buf[4] = '\0';
 		str = buf+2;
 		goto do_append_str;
 	    case CONV_Y:
