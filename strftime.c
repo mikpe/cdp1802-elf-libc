@@ -202,9 +202,13 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
     while ((c = *fmt++) != '\0') {
 	char buf[5];
 	const char *str;
+	int num, width;
 
 	if (c != '%')
 	    goto do_append_char;
+
+	/* Default number format is "%02u".  */
+	width = 2;
 
 	/* 'E' and 'O' modifiers need to loop.  */
 	for (;;) {
@@ -213,14 +217,14 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 	    case CONV_a:
 		strncpy(buf, wdays[tm->tm_wday], 3);
 		buf[3] = '\0';
-		break;
+		goto do_append_buf;
 	    case CONV_A:
 		str = wdays[tm->tm_wday];
 		goto do_append_str;
 	    case CONV_bh:
 		strncpy(buf, months[tm->tm_mon], 3);
 		buf[3] = '\0';
-		break;
+		goto do_append_buf;
 	    case CONV_B:
 		str = months[tm->tm_mon];
 		goto do_append_str;
@@ -228,18 +232,18 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 		str = "%a %b %e %T %Y";
 		goto do_recurse;
 	    case CONV_C:
-		snprintf(buf, 5, "%04u", tm->tm_year + 1900);
-		buf[2] = '\0';	/* truncate after century part */
-		break;
+		num = (tm->tm_year + 1900) / 100;
+		goto do_append_num;
 	    case CONV_d:
-		snprintf(buf, 3, "%02u", tm->tm_mday);
-		break;
+		num = tm->tm_mday;
+		goto do_append_num;
 	    case CONV_Dx:
 		str = "%m/%d/%y";
 		goto do_recurse;
 	    case CONV_e:
+		/* Pads with space not zero otherwise this could use do_append_num.  */
 		snprintf(buf, 3, "%2u", tm->tm_mday);
-		break;
+		goto do_append_buf;
 	    case CONV_EO:
 		/* Alternative era-based format modifier, or alternative
 		   numeric symbols modifier.  Ignored.  */
@@ -248,41 +252,36 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 		str = "%Y-%m-%d";
 		goto do_recurse;
 	    case CONV_Gg:
-	    {
-		int yr = tm->tm_year + 1900L;
+		num = tm->tm_year + 1900L;
 		if (tm->tm_yday < 3 && week_nr(tm) != 1)
-		    --yr;
+		    --num;
 		else if (tm->tm_yday > 360 && week_nr(tm) == 1)
-		    ++yr;
-		snprintf(buf, 5, "%04u", yr);
-		if (c == 'g') {
-		    str = buf + 2;
-		    goto do_append_str;
-		}
-		break;
-	    }
+		    ++num;
+		if (c == 'g')
+		    num %= 100;
+		else
+		    width = 4;
+		goto do_append_num;
 	    case CONV_H:
-		snprintf(buf, 3, "%02u", tm->tm_hour);
-		break;
+		num = tm->tm_hour;
+		goto do_append_num;
 	    case CONV_I:
-	    {
-		int hr = tm->tm_hour;
-		if (hr > 12)
-		    hr -= 12;
-		else if (hr == 0)
-		    hr = 12;
-		snprintf(buf, 3, "%02u", hr);
-		break;
-	    }
+		num = tm->tm_hour;
+		if (num > 12)
+		    num -= 12;
+		else if (num == 0)
+		    num = 12;
+		goto do_append_num;
 	    case CONV_j:
-		snprintf(buf, 4, "%03u", tm->tm_yday + 1);
-		break;
+		num = tm->tm_yday + 1;
+		width = 3;
+		goto do_append_num;
 	    case CONV_m:
-		snprintf(buf, 3, "%02u", tm->tm_mon + 1);
-		break;
+		num = tm->tm_mon + 1;
+		goto do_append_num;
 	    case CONV_M:
-		snprintf(buf, 3, "%02u", tm->tm_min);
-		break;
+		num = tm->tm_min;
+		goto do_append_num;
 	    case CONV_n:
 		c = '\n';
 		goto do_append_char;
@@ -290,7 +289,7 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 		buf[0] = (tm->tm_hour >= 12) ? 'P' : 'A';
 		buf[1] = 'M';
 		buf[2] = '\0';
-		break;
+		goto do_append_buf;
 	    case CONV_r:
 		str = "%I:%M:%S %p";
 		goto do_recurse;
@@ -298,8 +297,8 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 		str = "%H:%M";
 		goto do_recurse;
 	    case CONV_S:
-		snprintf(buf, 3, "%02u", tm->tm_sec);
-		break;
+		num = tm->tm_sec;
+		goto do_append_num;
 	    case CONV_t:
 		c = '\t';
 		goto do_append_char;
@@ -310,30 +309,33 @@ static bool do_strftime(struct obuf *o, const char *fmt, const struct tm *tm)
 		c = '0' + (tm->tm_wday ? tm->tm_wday : 7);
 		goto do_append_char;
 	    case CONV_U:
-		snprintf(buf, 3, "%02u", (tm->tm_yday + 7U - tm->tm_wday) / 7);
-		break;
+		num = (tm->tm_yday + 7U - tm->tm_wday) / 7;
+		goto do_append_num;
 	    case CONV_V:
-		snprintf(buf, 2, "%02u", week_nr(tm));
-		break;
+		num = week_nr(tm);
+		goto do_append_num;
 	    case CONV_w:
 		c = '0' + tm->tm_wday;
 		goto do_append_char;
 	    case CONV_W:
-		snprintf(buf, 3, "%02u", (tm->tm_yday + 7U - ((tm->tm_wday + 6U) % 7)) / 7);
-		break;
+		num = (tm->tm_yday + 7U - ((tm->tm_wday + 6U) % 7)) / 7;
+		goto do_append_num;
 	    case CONV_y:
-		snprintf(buf, 5, "%04u", tm->tm_year + 1900);
-		str = buf+2;
-		goto do_append_str;
+		num = (tm->tm_year + 1900) % 100;
+		goto do_append_num;
 	    case CONV_Y:
-		snprintf(buf, 5, "%04u", tm->tm_year + 1900);
-		break;
+		num = tm->tm_year + 1900;
+		goto do_append_num;
 	    case CONV_PCNT:
 		c = '%';
 		goto do_append_char;
 	    }
 	}
 
+    do_append_num:
+	snprintf(buf, sizeof buf, "%0*u", width, num);
+
+    do_append_buf:
 	/* This is for the default which is to output buf[].  */
 	str = buf;
 
