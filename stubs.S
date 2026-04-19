@@ -1,5 +1,5 @@
 # stubs.S
-# Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+# Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 #
 # This library is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ STUB	asinhf
 STUB	asinhl
 STUB	asinl
 STUB	atan
+STUB	atan2
 STUB	atanh
 STUB	atanhf
 STUB	atanhl
@@ -82,7 +83,10 @@ STUB	fgets
 STUB	floorf
 STUB	floorl
 STUB	fmaxl
+STUB	fmod
 STUB	fopen
+STUB	frexp
+STUB	ldexp
 STUB	ilogbf
 STUB	ilogbl
 STUB	llrint
@@ -111,9 +115,11 @@ STUB	lrintl
 STUB	lround
 STUB	lroundf
 STUB	lroundl
+STUB	modf
 STUB	nearbyint
 STUB	nearbyintf
 STUB	nearbyintl
+STUB	powf
 STUB	remove
 STUB	rint
 STUB	rintf
@@ -129,6 +135,9 @@ STUB	sinhf
 STUB	sinhl
 STUB	sinl
 STUB	sqrtl
+STUB	sscanf
+STUB	strtod
+STUB	strtof
 STUB	tan
 STUB	tanf
 STUB	tanh
