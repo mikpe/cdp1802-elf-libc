@@ -1,5 +1,5 @@
 /* iscntrl.c
-   Copyright (C) 2024  Mikael Pettersson <mikpelinux@gmail.com>
+   Copyright (C) 2024-2026  Mikael Pettersson <mikpelinux@gmail.com>
 
    This library is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,5 +20,5 @@
 
 int iscntrl(int c)
 {
-    return (c > 0 && c < 32) || c == 127;
+    return (unsigned int)c < 32 || c == 127;
 }
